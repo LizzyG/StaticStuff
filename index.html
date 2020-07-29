@@ -1,19 +1,114 @@
 <html>
-<head>
-    NearHear
+  <head>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;1,300&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NearHear</title>
 </head>
-<h1>Welcome to NearHear</h1>
-<h2>Discover music online.  See it nearby.</h2>
 <body>
-    NearHear allows you to create Spotify playlists of artists with upcoming performances in your area.  Listen to old favorites or discover new ones, then go see them live.
-    Just specify a city and date range then listen in Spotify.  Check the playlist description for a link to event information.
-    Launching post-Covid.  Enter your email and city here to be notified when we launch.
-    <form action="https://script.google.com/macros/s/AKfycbwhvSAFS6sVZshApIUAWu5G3x4g06zH5iNK4gNv5iN_jyUvYIY/exec" method="post">
-        <label for="Email">Email:</label><br>
-        <input type="text" id="Email" name="Email"><br>
-        <label for="City">City:</label><br>
-        <input type="text" id="City" name="City"><br><br>
-        <input type="submit" value="Submit">
-      </form>
-</body>
+    <style scoped="">
+        
+        /* 
+        #00e3f6ff 
+        #ff7200ff
+        */
+        p {     
+            /* text-align: justify; */
+            text-align: center;
+            font-size: 1.2em;
+            line-height: 1.2em;
+            padding: 1em 0 1em 0;
+            border-top: solid 1px #444;
+            border-bottom: solid 1px #444;
+        }
+        
+        body div {
+            font-family: "Nunito", sans-serif !important;
+            background-color:black;
+            color: #eee;
+            font-size: 1.2em;
+        }
+        
+        .nh-logo img {
+            width:100%;
+            box-sizing: border-box;
+            padding: 0 10%;
+        }
+  
+        .pure-button-primary,
+        .button-success,
+          .button-error,
+          .button-warning,
+          .button-secondary {
+              color: white;
+              border-radius: 8px;
+              text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+          }
+
+          form {
+              margin: 0 auto;
+              text-align: center;
+          }
+          form input {
+              margin: 1em auto;
+              text-align: center;
+          }
+
+          .pure-button-primary { 
+              background-color:#00e3f6ff; 
+              color:black; 
+            }
+      </style>
+    <div class="pure-g">
+        <div class="pure-u-1-3">
+        </div>
+        <div class="pure-u-1-3">
+            <div class="nh-logo">
+                <img src="./assets/svg/nh_dark.svg" alt="NearHear"/>
+            </div>
+        </div>
+        <div class="pure-u-1-3">
+        </div>
+    </div>
+    <div class="pure-g">
+        <div class="pure-u-1-3">   
+        </div>
+        <div class="pure-u-1-3">
+            <p>NearHear allows you to create Spotify playlists of artists with upcoming
+            performances in your area. Listen to old favorites or discover new ones,
+            then go see them live.<br/>Just specify a city and date range then listen in
+            Spotify. Check the playlist description for a link to event information.
+            Launching post-Covid.</p>
+            </div>
+        <div class="pure-u-1-3"></div>
+    </div>
+    <div class="pure-g">
+        <div class="pure-u-1-3">   
+        </div>
+        <div class="pure-u-1-3">
+            <form
+            class="pure-form"
+            action="https://script.google.com/macros/s/AKfycbwhvSAFS6sVZshApIUAWu5G3x4g06zH5iNK4gNv5iN_jyUvYIY/exec"
+            method="post"
+          >
+          <legned>Enter your email and city here to be notified when we launch.</legned>            
+          <fieldset >
+            <input type="text" id="Email" name="Email" placeholder="Email"/>
+            <input type="text" id="City" name="City" placeholder="City" /><br>
+            <input type="submit" value="Get Notified!" class="pure-button pure-button-primary" />
+          </fieldset>
+          </form>
+        </div>
+        <div class="pure-u-1-3"></div>
+    </div>
+
+  </body>
+  <body>
+    
+    
+  </body>
+  
+
+  </body>
 </html>
