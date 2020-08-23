@@ -7,9 +7,11 @@ Simple site for nearhear.app.
 Build docker image
 `docker build . -t nearhear-site`
 
-Run it _(SERVER_HOST and SERVER_PORT are optional. They will default to the values below if not provided.)_:
+Run it:
 
 `docker run -e SERVER_HOST=0.0.0.0 -e SERVER_PORT=8080 -p 8080:8080 nearhear-site`
+
+_(SERVER_HOST and SERVER_PORT are optional. They will default to the values below if not provided.)_
 
 # Running it locally
 
