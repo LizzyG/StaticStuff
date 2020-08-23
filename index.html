@@ -3,6 +3,8 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vuejs-datepicker"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NearHear</title>
 </head>
@@ -18,19 +20,58 @@
             line-height: 1.5em;
             padding-bottom: 1em;
         }
-        .nh-logo {
-            padding-top: 1em;
-        }
+
+        body {
+            background-color:cornsilk;
+            background-size: 50px;
+            background-image: url(assets/svg/nh_diag.svg);
+            color: #201a23;
+            min-height: 200px;
+        }        
         body .container {
-            background-color:black;
-            color: #eee;
+            font-family: Nunito !important;
             font-weight: lighter;
             font-size: 1.2em;
         }
-        
+        #app .pure-g [class*=pure-u] {
+            font-family: Nunito;
+        }
+        #app .pure-g {
+            padding-bottom: 2em;
+            padding-top:2em
+        }
+        .light-bg {
+            margin-top:2em;
+            color: #201a23;
+            min-height: 200px;
+        }
+
+        .dark-bg {
+            background-color:#201a23;
+            background-size: 50px;
+            background-image: url(assets/svg/nh_diag.svg);
+            color: cornsilk;
+            min-height: 200px;
+        }
+
+        .pop-bg {
+            background-color:deeppink;
+            background-size: 50px;
+            background-image: url(assets/svg/nh_diag.svg);
+            color: cornsilk;
+            min-height: 200px;
+        }
+
+        .mid-bg {
+            background-color:#352b3a;
+            background-size: 50px;
+            background-image: url(assets/svg/nh_diag.svg);
+            color: cornsilk;
+            min-height: 200px;
+        }
+
         html {
             font-family: "Nunito", sans-serif !important;
-            background-color: #00e3f6;
         }
 
         #footer {
@@ -39,16 +80,15 @@
             position: fixed;
             color: #222;
             bottom: 1em;
-           right: 1em;
-           font-style: italic;
+            right: 1em;
+            font-style: italic;
+        }
+        
+        .nh-logo img {
+            height: 7em;
+            padding: 10%;
         }
 
-        .nh-logo img {
-            width:100%;
-            box-sizing: border-box;
-            padding: 0 10%;
-        }
-  
         .pure-button-primary,
         .button-success,
           .button-error,
@@ -59,54 +99,213 @@
               text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
           }
 
-          form {
-              margin: 0 auto;
-              text-align: center;
-          }
-          form input {
-              margin: 1em auto;
-              text-align: center;
-          }
 
           .pure-button-primary { 
               background-color:#00e3f6ff; 
               color:black; 
             }
-            .container {
-                padding: 1em;
-            }
-      </style>
-    
-    <div class="container">
 
-        <div class="pure-g">
-            <div class="pure-u-1-3">
-            </div>
-            <div class="pure-u-1-3">
-                
-            </div>
-            <div class="pure-u-1-3">
+            #main-nav {
+                margin-top: 7%
+            }
+            #main-nav ul {
+                float:right
+            }
+
+            #main-nav .pure-menu-link {
+                font-size: 1.3em;
+            }
+
+            #top-nav {
+                filter: drop-shadow(0 0 0.75rem #222222);
+            }
+           
+           /* .datepicker-wrap { width: 13em; margin:auto; } */
+
+           
+
+ol {
+  list-style: none;
+  counter-reset: my-awesome-counter;
+}
+ol li {
+  counter-increment: my-awesome-counter;
+}
+ol li::before {
+  content: counter(my-awesome-counter) ". ";
+  color: deeppink;
+  font-weight: bold;
+}
+
+
+
+    #tag-line {
+        font-size: 1.5em;
+    float: right;
+    padding: 8%;
+    }
+
+           
+    #app .vdp-datepicker__calendar {
+        color: black;
+    }
+
+    .datepicker-wrap {
+        padding-top: 1em;
+        padding-left: 3em;
+    }
+
+    .playlist-action-wrapper {
+        padding-top:3em;
+        padding-left:3em
+    }
+
+    .pure-form input, textarea {
+        margin:.5em
+    }
+
+      </style>
+      
+    <div id="app" class="container">
+        <div id="top-nav" class="pure-g dark-bg">
+            <div class="pure-u-1-5"><div class="nh-logo"><img src="./assets/svg/nh.svg" alt="NearHear"></img></div></div>
+            <div class="pure-u-1-5"></div>
+            <div class="pure-u-3-5">
+                <div id="tag-line">Discover music online. See it nearby.</div>
+                <!-- <div id="main-nav" class="pure-menu pure-menu-horizontal">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link" v-on:click="navigate('about')">About</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link" v-on:click="navigate('how')">How it works</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link" v-on:click="navigate('notify')">Get Notified</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link" v-on:click="navigate('donate')">Donate</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link" v-on:click="navigate('contact')">Contact us</a>
+                    </li>
+                </ul>
+                </div> -->
             </div>
         </div>
-        <div class="pure-g">
-            <div class="pure-u-1-4"></div>
-
-            <div class="pure-u-1-4"> 
-                <div class="nh-logo">
-                    <img src="./assets/svg/nh_dark.svg" alt="NearHear"></img>
-                </div>  
-            </div>
-            <div class="pure-u-1-4">
-            <p>NearHear allows you to create Spotify playlists of artists with upcoming
+        <div class="pure-g light-bg">
+            <div class="pure-u-1-5"></div>
+            <div class="pure-u-3-5">
+                
+            <h1>NearHear allows you to create Spotify playlists of artists with upcoming
                 performances in your area. Listen to old favorites or discover new ones,
                 then go see them live.
-            </p>
-            <p>To create a playlist, just specify a city and date range then listen in
-                Spotify. Check the playlist description for a link to event information.</p>
+            </h1>
+            </div>
+        </div>
+        <div class="pure-g dark-bg">
+            <div class="pure-u-1-5">
+            </div>
+            <div class="pure-u-3-5" >
+                <h1>How It Works &#128640;</h1>
+                <ol>
+                    <li>Authorize with Spotify</li>
+                    <li>Pick a city</li>
+                    <li>Pick some dates</li>
+                    <li>Let Nearhear create a playlist and send it your spotify.</li>
+                    <li>Check spotify for the playlist</li>
+                    <li>Listen to the playlist. &#127911</li>
+                    <li>Find artists you like. </li>
+                    <li>Find links to event details in the playlist description.</li>
+                    <li>Get offline. Go out.</li>
+                </ol>
+            </div>
+        </div>
+        <div class="pure-g dark-bg" v-if="!loading">
+            <div class="pure-u-1-5">
+            </div>
+            <div class="pure-u-1-5">
+                <div v-if="authNone">
+                    <H2>Authorize with Spotify &#128275;</H2>
+                    <p>We will send you over to spotify to login, and then spotify will give us permission to push playlists to your account. Easy as that.</p>
+                </div>
+                <div class="warning" v-if="authError">
+                    <H2>Authorization Issue &#129320; </H2>
+                    <H3>Oh no! Something went awry...</H3>
+                    <p>Seems like there's a problem authenticating with spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
+                </div>
+                <div class="warning" v-if="authSuccess">
+                    <H2>Spotify Authorization Success &#127821; </H2>
+                    <p>We've validated you with spotify. In the next step you'll build the playlist.</p>
+                </div>
+            </div>
+            <div class="pure-u-1-5 playlist-action-wrapper" v-if="authNone || authError">
+                <input type="button" value="Authorize" class="pure-button pure-button-primary"  v-on:click="authSpotify" />
+            </div>
+        </div>
+        <div class="pure-g dark-bg" v-if="!loading && authSuccess">
+            <div class="pure-u-1-5">
+            </div>
+            <div class="pure-u-1-5">
+                <H2>Pick a city</H2>
+                <p>Currently we only support a handful of cities. But more will show up in the future. Checkout our mailing list to sign up, and show interest in bringing near hear to your town.</p>
+            </div>
+            <div class="pure-u-1-5 playlist-action-wrapper">
+                <select v-model="playlist.city" v-on:change="onCitySelected" >
+                    <option v-for="city in playlist.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="pure-g dark-bg" v-if="!loading && citySuccess">
+            <div class="pure-u-1-5"></div>
+            <div class="pure-u-1-5">
+                <H2>Set your date range</H2>
+                <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
+            </div>
+            <div class="pure-u-1-5 playlist-action-wrapper">
+                <div class="datepicker-wrap">
+                    <vuejs-datepicker  :value="playlist.startDate" name="startDate" placeholder="Pick Start Date" @selected="onStartDateSelected">
+                    </vuejs-sdatepicker>
+                </div>
+                <div class="datepicker-wrap">
+                    <vuejs-datepicker :value="playlist.endDate" name="endDate" placeholder="Pick End Date" @selected="onEndDateSelected">
+                    </vuejs-datepicker>
+                </div>
+            </div>
+        </div>
+        <div class="pure-g dark-bg" v-if="!loading && dateSuccess">
+            <div class="pure-u-1-5"></div>
+            <div class="pure-u-1-5">
+                <H2>Almost there!</H2>
+                <p>All you gotta do now is press that playlist button. &#128293; </p>
+            </div>
+            <div class="pure-u-1-5 playlist-action-wrapper">
+                <input type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.created" />
+            </div>
+        </div>
+
+        <div class="pure-g dark-bg" v-if="!loading && playlist.created">
+            <div class="pure-u-1-5">
+            </div>
+            <div class="pure-u-2-5">
+                <H2>Congrats! You've made a nearhear playlist. Go check spotify and listen to it.</H2>
+                <p>Show times and info can be found in the playlist's description. To save this playlist book mark the page, or copy this <a href="playlistLink">link</a>.</p>
+                <p>If you went to the show, or you just liked the playlist. Let us know on instagram or twitter.</p>
+                <p>instagram: @nearhear</p>
+                <p>twitter: @nearhear</p>
+            </div>
+        </div>
+        <div class="pure-g mid-bg">
+            <div class="pure-u-1-5">
+            </div>
+            <div class="pure-u-1-5">
+                <h1>Be Notified &#128036;</h1>
                 <p>NearHear is currently in the works, but we will be launching post-Covid.
                     Enter your email and city below to be notified when we launch in your town. 
                     Access will be limitted at first, and signing up now secures you a spot. 
                 </p>
+            </div>
+            <div class="pure-u-1-5 playlist-action-wrapper">
                 <form
                 class="pure-form"
                 action="https://script.google.com/macros/s/AKfycbwhvSAFS6sVZshApIUAWu5G3x4g06zH5iNK4gNv5iN_jyUvYIY/exec"
@@ -119,24 +318,218 @@
                 </fieldset>
             </form>
             </div>
-            <div class="pure-u-1-4"></div>
         </div>
-        <div class="pure-g">
-            <div class="pure-u-1-3">   
+        <div class="pure-g dark-bg">
+            <div class="pure-u-1-5">
             </div>
-            <div class="pure-u-1-3">
-                
+            <div class="pure-u-1-5">
+                <h1>Donate &#127867;</h1>
+                <p>Send us some love and throw some money our way! Nearhear is currently free and in a perfect world the generousity of others would keep it this way forever!</p>
+            </div>
+            <div class="pure-u-1-5 playlist-action-wrapper">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="pure-form">
+                    <input type="hidden" name="cmd" value="_donations" />
+                    <input type="hidden" name="business" value="liz@nearhear.app" />
+                    <input type="hidden" name="currency_code" value="USD" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    <img alt="" style="margin-left:2em" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                    </form>
+            </form>
+            </div>
         </div>
-        <div class="pure-u-1-3"></div>
+        <div class="pure-g mid-bg">
+            <div class="pure-u-1-5">
+            </div>
+            <div class="pure-u-1-5">
+                <h1>Contact Us &#128227;</h1>
+                <p>Questions, comments, concerns, just want to be friends? Don't be a stranger. Reach out to us.</p>
+            </div>
+            <div class="pure-u-1-5 playlist-action-wrapper">
+                <form
+                class="pure-form"
+                action="https://script.google.com/macros/s/AKfycbwhvSAFS6sVZshApIUAWu5G3x4g06zH5iNK4gNv5iN_jyUvYIY/exec"
+                method="post"
+                >         
+                <fieldset >
+                    <input type="text" id="Email" name="Email" placeholder="Your Email"/></br>
+                    <textarea id="comments" name="Comments" placeholder="Enter your comments here."></textarea> 
+                    <br>
+                    <input type="submit" value="Get Notified!" class="pure-button pure-button-primary" />
+                </fieldset>
+            </form>
+            </div>
+        </div>
     </div>
-</div>
     <div id="footer">Copyright 2020 Offline Development LLC</div>
-  </body>
-  <body>
-    
-    
-  </body>
-  
 
+    <script>
+        const baseUrl = "http://138.68.36.120"
+        const headers = new Headers()
+        headers.append("Content-Type", "application/json"); 
+
+        function nhFetch(path, method, body) {
+            const opts = {
+                method: method,
+                //credentials: 'include',
+                headers: headers,
+                redirect: "follow"
+            }
+
+            if (body) {
+                opts.body = JSON.stringify(body)
+            }
+
+            console.log("fetching", baseUrl + path, opts)
+            return fetch(baseUrl + path, opts)
+        }
+
+        var app = new Vue({
+          el: '#app',
+          components: {
+            vuejsDatepicker
+          },
+          data: {
+            loading: true,
+            tab: 'about',
+            step: {
+                one: false,
+                two: false,
+                three: false,
+                four: false
+            },
+            auth: {
+                spotify: {
+                    inOauthMode: undefined,
+                    userid: undefined,
+                    oauthUrl: undefined
+                }
+            },
+            playlist: {
+                platforms: ['spotify'],
+                startDate: undefined,
+                endDate: undefined,
+                city: undefined,
+                cities: [],
+                venues: [],
+                created: false
+            },
+            cities: [],
+          },
+          mounted: function(){
+            console.log("BEFORE CREATE")
+
+            // check user id
+            const params = new URLSearchParams(window.location.search)
+            if (params.has('userid')) {
+                this.auth.spotify.userid = params.get('userid')
+            }
+
+            if (this.auth.spotify.userid && this.auth.spotify.userid !== 'error') {
+                this.step.one = true
+            }
+                
+            // Grab current cities
+            nhFetch(
+                `/media/getSupportedCities`,  
+                "GET")
+                .then(response => response.text())
+                .then(result => {
+                    const obj = JSON.parse(result)
+                    this.playlist.cities = obj
+                    this.loading = false
+                })
+                .catch(error => console.log('error', error));
+
+            
+          },
+          computed: {
+              authNone: function() {
+                return this.auth.spotify.userid === undefined
+              },
+              authSuccess: function() {
+                return this.auth.spotify.userid && this.auth.spotify.userid !== 'error'
+              },
+              authError: function() {
+                return this.auth.spotify.userid === 'error'
+              },
+              citySuccess: function() {
+                return this.playlist.city !== undefined
+              },
+              dateSuccess: function() {
+                return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
+              },
+              playListLink: function() {
+                return `${window.location.host}/index.html?city=${this.playlist.city}&sd=${this.playlist.startDate.toUTCString()}&ed=${this.playlist.endDate.toUTCString()}`
+              }
+          },
+          methods: {
+            navigate: function (tab) {
+                this.tab = tab
+            },
+            authSpotify: function () {
+                const ol = encodeURIComponent(`${window.location.protocol}//${window.location.host}/index.html`)
+                let authEndPoint = `${baseUrl}/spotify/auth?ol=${ol}`
+                if (this.auth.spotify.userid !== undefined) {
+                    authEndPoint += `&userid=${this.auth.spotify.userid}`
+                }
+                console.log("AUTHING WITH ", authEndPoint)
+                window.location = authEndPoint
+            },
+            buildPath: function() {
+                let path = window.location.pathname
+                let query = '?'
+                // if (this.authSuccess)           query += `auth_spotify_userid=${this.auth.spotify.userid}&`
+                if (this.playlist.city)         query += `playlist_city=${this.playlist.city}&`
+                if (this.playlist.startDate)    query += `playlist_startDate=${this.playlist.startDate}&`
+                if (this.playlist.endDate)      query += `playlist_endDate=${this.playlist.endDate}&`
+                return path + query
+            },
+            onCitySelected: function(city) {
+                this.playlist.created =false
+                //history.pushState(this.playlist, '', this.buildPath())
+            },
+            onStartDateSelected: function(date) {
+                if (this.playlist.created && this.playlist.startDate !== date) {
+                    this.playlist.created = false
+                }
+                this.playlist.startDate = date
+                //history.pushState(this.playlist, '', this.buildPath())
+            },
+            onEndDateSelected: function(date) {
+                if (this.playlist.created && this.playlist.endDate !== date) {
+                    this.playlist.created = false
+                }
+                this.playlist.endDate = date
+                //history.pushState(this.playlist, '', this.buildPath())
+            },
+            createPlaylist: function() {
+                //history.pushState(this.playlist, '')
+                for (const platform of this.playlist.platforms)
+                {
+
+                    const payload = {
+                        "Platform":"spotify",
+                        "UserId": this.auth[platform].userid,
+                        "City": this.playlist.city,
+                        "StartDate": this.playlist.startDate,
+                        "EndDate": this.playlist.endDate,
+                        "DeleteExisting":false,
+                        "Venues":this.playlist.Venues 
+                    }
+
+                    console.log("request playlist for", payload)
+
+                    this.playlist.created = true
+                    nhFetch("/spotify/buildPlaylist", "POST", payload)
+                        .then(resp => resp.text())
+                        .then(result => {
+                            console.log(JSON.parse(result)) 
+                        })                    
+                }
+            }
+          }
+        })
+      </script>
   </body>
+
 </html>
