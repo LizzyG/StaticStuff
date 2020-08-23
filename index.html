@@ -10,15 +10,20 @@
 </head>
 <body>
     <style scoped="">
+        #app .vdp-datepicker__calendar { color: black; }
+        #app .pure-g [class*=pure-u] { font-family: Nunito; }
+        #app .pure-g { padding-bottom: 2em; padding-top:2em }
         
+        #tag-line { font-size: 1.5em; position: absolute; top: 50%; right: 0%; transform: translate(-10%, -50%); }
+        #footer { font-style: italic; color: cornsilk; position: static; position: fixed; bottom: 1em; right: 1em; }
+
         /* 
         #00e3f6ff 
         #ff7200ff
         */
-        p {     
-            text-align: justify;
-            line-height: 1.5em;
-            padding-bottom: 1em;
+        
+        html {
+            font-family: "Nunito", sans-serif !important;
         }
 
         body {
@@ -33,13 +38,13 @@
             font-weight: lighter;
             font-size: 1.2em;
         }
-        #app .pure-g [class*=pure-u] {
-            font-family: Nunito;
+        
+        p {     
+            text-align: justify;
+            line-height: 1.5em;
+            padding-bottom: 1em;
         }
-        #app .pure-g {
-            padding-bottom: 2em;
-            padding-top:2em
-        }
+
         .light-bg {
             margin-top:2em;
             color: #201a23;
@@ -70,22 +75,9 @@
             min-height: 200px;
         }
 
-        html {
-            font-family: "Nunito", sans-serif !important;
-        }
-
-        #footer {
-            font-style: italic;
-            color: cornsilk;
-            position: static;
-            position: fixed;
-            bottom: 1em;
-            right: 1em;
-        }
-        
         .nh-logo img {
-            height: 7em;
-            padding: 10%;
+            height: 9em;
+            position: absolute; top: 50%; left: 0%; transform: translate(15%, -50%);
         }
 
         .pure-button-primary,
@@ -123,31 +115,10 @@
 
            
 
-ol {
-  list-style: none;
-  counter-reset: my-awesome-counter;
-}
-ol li {
-  counter-increment: my-awesome-counter;
-}
-ol li::before {
-  content: counter(my-awesome-counter) ". ";
-  color: deeppink;
-  font-weight: bold;
-}
-
-
-
-    #tag-line {
-        font-size: 1.5em;
-    float: right;
-    padding: 8%;
-    }
-
+    ol { list-style: none; counter-reset: my-awesome-counter; }
+    ol li { counter-increment: my-awesome-counter; }
+    ol li::before { content: counter(my-awesome-counter) ". "; color: deeppink; font-weight: bold; }
            
-    #app .vdp-datepicker__calendar {
-        color: black;
-    }
 
     .datepicker-wrap {
         padding-top: 1em;
@@ -362,7 +333,7 @@ ol li::before {
     <div id="footer">Copyright 2020 Offline Development LLC</div>
 
     <script>
-        const baseUrl = "http://138.68.36.120"
+        const baseUrl = "https://nearhear.app"
         const headers = new Headers()
         headers.append("Content-Type", "application/json"); 
 
