@@ -8,7 +8,7 @@ Build docker image
 `docker build . -t nearhear-stie`
 
 Run it _(SERVER_HOST and SERVER_PORT are optional. They will default to the values below if not provided.)_:
-`docker run -e SERVER_HOST=0.0.0.0 -e SERVER_PORT=8080 -p 8080:8081 nearhear-site`
+`docker run -e SERVER_HOST=0.0.0.0 -e SERVER_PORT=8080 -p 8080:8080 nearhear-site`
 
 # Running it locally
 
