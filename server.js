@@ -37,5 +37,5 @@ const server = http.createServer(function (req, res) {
 
 const port = process.env.SERVER_PORT || 8080;
 const host = process.env.SERVER_HOST || "0.0.0.0";
-server.listen(port, host);
 console.log(`listenting on ${host}:${port}`);
+server.listen(port, host);
