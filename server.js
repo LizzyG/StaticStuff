@@ -34,4 +34,8 @@ const server = http.createServer(function (req, res) {
     res.end(content, "utf-8");
   });
 });
-server.listen(80, "127.0.0.1");
+
+const port = process.env.SERVER_PORT || 8080;
+const host = process.env.SERVER_HOST || "0.0.0.0";
+server.listen(port, host);
+console.log(`listenting on ${host}:${port}`);
