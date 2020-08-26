@@ -4,9 +4,8 @@ const path = require("path");
 
 const server = http.createServer(function (req, res) {
   let filePath = "." + req.url;
-  if (filePath == "./") filePath = "./index.html";
-
   filePath = filePath.replace(/[?].*/g, "");
+  if (filePath == "./") filePath = "./index.html";
 
   var extname = path.extname(filePath);
   var contentType = "text/html";
