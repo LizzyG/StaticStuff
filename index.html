@@ -1,5 +1,5 @@
 <html>
-  <head>
+<head>
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
@@ -10,21 +10,19 @@
 </head>
 <body>
     <style scoped="">
-        #app { font-family: "Nunito", sans-serif !important; letter-spacing: initial !important;}
+        #app { font-family: "Nunito", sans-serif !important; letter-spacing: initial !important; width:100%; letter-spacing: initial;}
         #app .vdp-datepicker__calendar { color: black; }
         #app .pure-g { padding-bottom: 2em; padding-top: 2em; letter-spacing: initial; }
         #app .pure-g [class*=pure-u] { font-family: "Nunito", sans-serif !important; }
-
-
-        #tagline { font-size: 1.5em; position: absolute; top: 50%; right: 0%; transform: translate(-10%, -50%); }
-        #tagline2 { font-size: 1em; display: none; }
-        #footer { font-style: italic; color: cornsilk; position: static; position: fixed; bottom: 1em; right: 1em; }
-        #footer { bottom: 0; right: 0; background: #000; width: 100%; height: 1em; text-align: right; padding: .5em; font-size: .75em; }
-        /* 
-        #00e3f6ff 
-        #ff7200ff
-        */
-        
+        #app input, textarea { margin:.5em; max-width: 50%; }
+        #blurb { max-width: 50%; margin:0 auto; }
+        #footer { font-style: italic; color: cornsilk; position: fixed;  bottom: 0; right: 0; background: #000; width: 100%; height: 1em; text-align: right; padding: .5em; font-size: .75em; }
+        #main-nav { margin-top: 7% }
+        #main-nav ul { float:right }
+        #main-nav .pure-menu-link { font-size: 1.3em; }
+        #nh-logo { position: absolute; max-width: 18em; left: 5%; }
+        #tagline { font-size: 1.5em; line-height: 6em; position: absolute; right: 5%;   }
+       
         body {
             background-color:cornsilk;
             background-size: 50px;
@@ -37,7 +35,6 @@
             font-weight: lighter;
             font-size: 1.2em;
         }
-        
         p {     
             text-align: justify;
             line-height: 1.5em;
@@ -50,15 +47,13 @@
             min-height: 200px;
         }
 
-        #app { width:100%; letter-spacing: initial; }
-        #app .show-bg {
+        .show-bg {
             background-image: url('./assets/show.png');
             background-repeat: no-repeat;
             background-color: #000;
             background-position: center;
             color: cornsilk;
         }
-
         .dark-bg {
             background-color:#382044;
             background-size: 50px;
@@ -66,7 +61,6 @@
             color: cornsilk;
             min-height: 200px;
         }
-
         .pop-bg {
             background-color:deeppink;
             background-size: 50px;
@@ -74,7 +68,6 @@
             color: cornsilk;
             min-height: 200px;
         }
-
         .mid-bg {
             background-color:#352b3a;
             background-size: 50px;
@@ -82,93 +75,44 @@
             color: cornsilk;
             min-height: 200px;
         }
-
-        .nh-logo img {
-            height: 9em;
-            max-width: 80%;
-            position: absolute; top: 50%; left: 0%; transform: translate(15%, -50%);
-        }
-
         .pure-button-primary,
         .button-success,
-          .button-error,
-          .button-warning,
-          .button-secondary {
-              color: white;
-              border-radius: 8px;
-              text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-          }
+        .button-error,
+        .button-warning,
+        .button-secondary {
+            color: white;
+            border-radius: 8px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+        .pure-button-primary { 
+            background-color:#00e3f6ff; 
+            color:black; 
+        }
+        .datepicker-wrap { padding-top: 1em; padding-left: 3em; }
+        .playlist-action-wrapper { padding-top:3em; padding-left:3em }
 
-
-          .pure-button-primary { 
-              background-color:#00e3f6ff; 
-              color:black; 
-            }
-
-            #main-nav {
-                margin-top: 7%
-            }
-            #main-nav ul {
-                float:right
-            }
-
-            #main-nav .pure-menu-link {
-                font-size: 1.3em;
-            }
-
-            #top-nav {
-                filter: drop-shadow(0 0 0.75rem #222222);
-            }
-           
-           /* .datepicker-wrap { width: 13em; margin:auto; } */
-
-           
-
-    ol { list-style: none; counter-reset: my-awesome-counter; }
-    ol li { counter-increment: my-awesome-counter; }
-    ol li::before { content: counter(my-awesome-counter) ". "; color: deeppink; font-weight: bold; }
-           
-
-    .datepicker-wrap {
-        padding-top: 1em;
-        padding-left: 3em;
-    }
-
-    .playlist-action-wrapper {
-        padding-top:3em;
-        padding-left:3em
-    }
-
-    .pure-form input, textarea {
-        margin:.5em
-    }
-
+        ol { list-style: none; counter-reset: my-awesome-counter; }
+        ol li { counter-increment: my-awesome-counter; }
+        ol li::before { content: counter(my-awesome-counter) ". "; color: deeppink; font-weight: bold; }
     
-
-    #blurb {
-        max-width: 50%;
-        margin:0 auto;
-    }
-
         @media (max-width: 1024px) { 
             #blurb {max-width: initial;}
             #app h1 {font-size: 1.5em; letter-spacing: initial; }
-            #app .pure-g [class*=pure-u] {  width:initial; padding: 0 1em; }
-            #tagline { display: none }
-            #tagline2 { display: block }
-            
-            /* .pure-u-1-4, .pure { width: initial; padding: 2em; } */
+            #app .pure-g [class*=pure-u] { width:initial; padding: 0 1em; max-width: 80%; }
+            #tagline { display: none; width:0; height: 0; }
+            #app input, textarea { max-width: 9em }
             .nh-logo img { left: 1em; transform: translate(0, -50%); }
+            .playlist-action-wrapper { margin-left: 2em }
         }
 
-      </style>
+    </style>
       
     <div id="app" class="container gu" >
         <div id="top-nav">
             <div class="pure-g dark-bg">
                 <div class="pure-u-1-4">
                     <div id="tagline">Discover music online. See it nearby.</div>
-                    <div class="nh-logo"><img src="./assets/svg/nh.svg" alt="NearHear"></img></div>
+                    <img id="nh-logo" src="./assets/nh.png" alt="NearHear"></img>
                 </div>
             </div>
         </div>
@@ -237,8 +181,10 @@
         <div class="pure-g dark-bg" v-if="!loading && citySuccess">
             <div class="pure-u-1-4"></div>
             <div class="pure-u-1-4">
-                <H2>Set your date range</H2>
-                <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
+                <div>
+                    <H2>Set your date range</H2>
+                    <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
+                </div>
             </div>
             <div class="pure-u-1-4 playlist-action-wrapper">
                 <div class="datepicker-wrap">
@@ -266,11 +212,13 @@
             <div class="pure-u-1-4">
             </div>
             <div class="pure-u-2-4">
+                <div>
                 <H2>Congrats! You've made a nearhear playlist. Go check spotify and listen to it.</H2>
                 <p>Show times and info can be found in the playlist's description. To save this playlist book mark the page, or copy this <a href="playlistLink">link</a>.</p>
                 <p>If you went to the show, or you just liked the playlist. Let us know on instagram or twitter.</p>
                 <p>instagram: @nearhear</p>
                 <p>twitter: @nearhear</p>
+                </div>
             </div>
         </div>
         <div class="pure-g mid-bg">
@@ -291,7 +239,7 @@
                 >         
                 <fieldset >
                     <input type="text" id="Email" name="Email" placeholder="Your Email"/>
-                    <input type="text" id="City" name="City" placeholder="Your City" /><br>
+                    <input type="text" id="City" name="City" placeholder="Your City" />
                     <input type="submit" value="Get Notified!" class="pure-button pure-button-primary" />
                 </fieldset>
             </form>
@@ -329,8 +277,8 @@
                 method="post"
                 >         
                     <fieldset >
-                        <input type="text" id="Email" name="Email" placeholder="Your Email"/></br>
-                        <textarea id="comments" name="Comments" placeholder="Enter your comments here."></textarea><br>
+                        <input type="text" id="Email" name="Email" placeholder="Your Email"/>
+                        <textarea id="comments" name="Comments" placeholder="Enter your comments here."></textarea>
                         <input type="submit" value="Get Notified!" class="pure-button pure-button-primary" />
                     </fieldset>
                 </form>
@@ -342,6 +290,7 @@
     <script>
         const baseUrl = "https://nearhear.app"
         const headers = new Headers()
+        const userIdCn = "spotify_user_id"
         headers.append("Content-Type", "application/json"); 
 
         function setCookie(cname, cvalue, exdays) {
@@ -416,8 +365,6 @@
             cities: [],
           },
           mounted: function(){
-            console.log("BEFORE CREATE")
-
             // check user id
             const params = new URLSearchParams(window.location.search)
             const userId = this.getUserIdFromCookie()
@@ -440,8 +387,6 @@
                     this.loading = false
                 })
                 .catch(error => console.log('error', error));
-
-            
           },
           computed: {
               authNone: function() {
@@ -465,26 +410,21 @@
           },
           methods: {
             getUserIdFromCookie: function() {
-                const cookieVal = getCookie("spotify_user_id")
-                console.log("COOKIE VAL", cookieVal)
-                return cookieVal
+                return getCookie(userIdCn) || new URLSearchParams(window.location.search).get("userid")
             },
             navigate: function (tab) {
                 this.tab = tab
             },
             authSpotify: function () {
-                const ol = encodeURIComponent(`${window.location.protocol}//${window.location.host}/index.html`)
-                let authEndPoint = `${baseUrl}/spotify/auth?ol=${ol}`
+                let authEndPoint = `${baseUrl}/spotify/auth`
                 if (this.auth.spotify.userid !== undefined) {
-                    authEndPoint += `&userid=${this.auth.spotify.userid}`
+                    authEndPoint += `?userid=${this.auth.spotify.userid}`
                 }
-                console.log("AUTHING WITH ", authEndPoint)
                 window.location = authEndPoint
             },
             buildPath: function() {
                 let path = window.location.pathname
                 let query = '?'
-                // if (this.authSuccess)           query += `auth_spotify_userid=${this.auth.spotify.userid}&`
                 if (this.playlist.city)         query += `playlist_city=${this.playlist.city}&`
                 if (this.playlist.startDate)    query += `playlist_startDate=${this.playlist.startDate}&`
                 if (this.playlist.endDate)      query += `playlist_endDate=${this.playlist.endDate}&`
@@ -492,27 +432,21 @@
             },
             onCitySelected: function(city) {
                 this.playlist.created =false
-                //history.pushState(this.playlist, '', this.buildPath())
             },
             onStartDateSelected: function(date) {
                 if (this.playlist.created && this.playlist.startDate !== date) {
                     this.playlist.created = false
                 }
                 this.playlist.startDate = date
-                //history.pushState(this.playlist, '', this.buildPath())
             },
             onEndDateSelected: function(date) {
                 if (this.playlist.created && this.playlist.endDate !== date) {
                     this.playlist.created = false
                 }
                 this.playlist.endDate = date
-                //history.pushState(this.playlist, '', this.buildPath())
             },
             createPlaylist: function() {
-                //history.pushState(this.playlist, '')
-                for (const platform of this.playlist.platforms)
-                {
-
+                for (const platform of this.playlist.platforms) {
                     const payload = {
                         "Platform":"spotify",
                         "UserId": this.auth[platform].userid,
@@ -522,15 +456,12 @@
                         "DeleteExisting":false,
                         "Venues":this.playlist.Venues 
                     }
-
-                    console.log("request playlist for", payload)
-
-                    this.playlist.created = true
                     nhFetch("/spotify/buildPlaylist", "POST", payload)
-                        .then(resp => resp.text())
-                        .then(result => {
-                            console.log(JSON.parse(result)) 
-                        })                    
+                    .then(resp => resp.text())
+                    .then(result => {
+                        this.playlist.created = true
+                        console.log(JSON.parse(result)) 
+                    })                    
                 }
             }
           }
