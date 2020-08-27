@@ -3,6 +3,7 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/vuejs-datepicker"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,10 +13,11 @@
     <style scoped="">
         #app { font-family: "Nunito", sans-serif !important; letter-spacing: initial !important; width:100%; letter-spacing: initial;}
         #app .vdp-datepicker__calendar { color: black; }
-        #app .pure-g { padding-bottom: 2em; padding-top: 2em; letter-spacing: initial; }
-        #app .pure-g [class*=pure-u] { font-family: "Nunito", sans-serif !important; }
-        #app input, textarea { margin:.5em; max-width: 50%; }
-        #blurb { max-width: 50%; margin:0 auto; }
+        /* #app .pure-g { padding-bottom: 2em; padding-top: 2em; letter-spacing: initial; } */
+        #app .pure-g [class *= "pure-u"] {  font-family: "Nunito", sans-serif !important; letter-spacing: initial; }
+        #app .pure-g {padding: 1em 0;}
+        #app input, textarea, select { margin:.5em; }
+        #blurb { text-align: center; }
         #footer { font-style: italic; color: cornsilk; position: fixed;  bottom: 0; right: 0; background: #000; width: 100%; height: 1em; text-align: right; padding: .5em; font-size: .75em; }
         #main-nav { margin-top: 7% }
         #main-nav ul { float:right }
@@ -26,7 +28,7 @@
         body {
             background-color:cornsilk;
             background-size: 50px;
-            background-image: url(assets/svg/nh_diag.svg);
+            background-image: url(assets/nh_diag.svg);
             color: #201a23;
             min-height: 200px;
         }        
@@ -39,6 +41,10 @@
             text-align: justify;
             line-height: 1.5em;
             padding-bottom: 1em;
+        }
+        a, a:active, a:visited {
+            color: deeppink;
+            font-weight: bold;
         }
 
         .light-bg {
@@ -54,24 +60,29 @@
             background-position: center;
             color: cornsilk;
         }
-        .dark-bg {
-            background-color:#382044;
+        .dark-bg, .dark-bg-1 {
+            background-color:#133c4c;
             background-size: 50px;
-            background-image: url(assets/svg/nh_diag.svg);
             color: cornsilk;
             min-height: 200px;
+            background-image: url(assets/nh_diag.svg);
+
+        }
+        .dark-bg-1 { 
+            background-color:#23132b; 
+            background-image: url(assets/nh_diag.svg);
         }
         .pop-bg {
             background-color:deeppink;
             background-size: 50px;
-            background-image: url(assets/svg/nh_diag.svg);
+            /* background-image: url(assets/nh_diag.svg); */
             color: cornsilk;
             min-height: 200px;
         }
         .mid-bg {
             background-color:#352b3a;
             background-size: 50px;
-            background-image: url(assets/svg/nh_diag.svg);
+            background-image: url(assets/nh_diag.svg);
             color: cornsilk;
             min-height: 200px;
         }
@@ -88,29 +99,76 @@
             background-color:#00e3f6ff; 
             color:black; 
         }
-        .datepicker-wrap { padding-top: 1em; padding-left: 3em; }
-        .playlist-action-wrapper { padding-top:3em; padding-left:3em }
-
-        ol { list-style: none; counter-reset: my-awesome-counter; }
+        .filter-wrapper { float:left; width: 40%;}
+        /* .datepicker-wrap { padding-top: 1em; padding-left: 3em; } */
+        ol { list-style: none; counter-reset: my-awesome-counter; padding-left: 0.5em; }
         ol li { counter-increment: my-awesome-counter; }
         ol li::before { content: counter(my-awesome-counter) ". "; color: deeppink; font-weight: bold; }
     
-        @media (max-width: 1024px) { 
+        @media screen and (max-width: 64em) {
             #blurb {max-width: initial;}
             #app h1 {font-size: 1.5em; letter-spacing: initial; }
-            #app .pure-g [class*=pure-u] { width:initial; padding: 0 1em; max-width: 80%; }
             #tagline { display: none; width:0; height: 0; }
             #app input, textarea { max-width: 9em }
             .nh-logo img { left: 1em; transform: translate(0, -50%); }
-            .playlist-action-wrapper { margin-left: 2em }
-        }
+        } 
 
+    @keyframes ldio-ocss36wta5n-o {
+        0%    { opacity: 1; transform: translate(0 0) }
+       49.99% { opacity: 1; transform: translate(40px,0) }
+       50%    { opacity: 0; transform: translate(40px,0) }
+      100%    { opacity: 0; transform: translate(0,0) }
+    }
+    @keyframes ldio-ocss36wta5n {
+        0% { transform: translate(0,0) }
+       50% { transform: translate(40px,0) }
+      100% { transform: translate(0,0) }
+    }
+    .ldio-ocss36wta5n div {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      top: 30px;
+      left: 10px;
+    }
+    .ldio-ocss36wta5n div:nth-child(1) {
+      background: #382044;
+      animation: ldio-ocss36wta5n 1s linear infinite;
+      animation-delay: -0.5s;
+    }
+    .ldio-ocss36wta5n div:nth-child(2) {
+      background: #00e5ff;
+      animation: ldio-ocss36wta5n 1s linear infinite;
+      animation-delay: 0s;
+    }
+    .ldio-ocss36wta5n div:nth-child(3) {
+      background: #382044;
+      animation: ldio-ocss36wta5n-o 1s linear infinite;
+      animation-delay: -0.5s;
+    }
+    .loadingio-spinner-dual-ball-ffelmax3riq {
+      width: 58px;
+      height: 58px;
+      overflow: hidden;
+      background: none;
+    }
+    .ldio-ocss36wta5n {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform: translateZ(0) scale(0.58);
+      backface-visibility: hidden;
+      transform-origin: 0 0; /* see note above */
+    }
+    .ldio-ocss36wta5n div { box-sizing: content-box; }
+    /* generated by https://loading.io/ */
     </style>
       
     <div id="app" class="container gu" >
         <div id="top-nav">
             <div class="pure-g dark-bg">
-                <div class="pure-u-1-4">
+                <div class="pure-u-1 pure-u-md-1-3">
                     <div id="tagline">Discover music online. See it nearby.</div>
                     <img id="nh-logo" src="./assets/nh.png" alt="NearHear"></img>
                 </div>
@@ -118,7 +176,9 @@
         </div>
 
         <div class="pure-g show-bg">
-            <div class="pure-u-4-4">
+            <div class="pure-u-1 pure-u-md-1-5">
+            </div>
+            <div class="pure-u-1 pure-u-md-3-5">
                 <h1 id="blurb">NearHear allows you to create Spotify playlists of artists with upcoming
                     performances in your area. Listen to old favorites or discover new ones,
                     then go see them live.</h1>
@@ -126,27 +186,25 @@
         </div>
 
         <div class="pure-g dark-bg">
-            <div class="pure-u-1-4">
+
+            <div class="pure-u-1 pure-u-md-1-3">
             </div>
-            <div class="pure-u-2-4" >
+            <div class="pure-u-1 pure-u-md-1-3">
                 <h1>How It Works &#128640;</h1>
                 <ol>
                     <li>Authorize with Spotify</li>
-                    <li>Pick a city</li>
-                    <li>Pick some dates</li>
+                    <li>Pick a city and a time frame.</li>
+                    <li>Filter by your favorite venue and genre.</li>
                     <li>Let Nearhear create a playlist and send it your spotify.</li>
-                    <li>Check spotify for the playlist</li>
-                    <li>Listen to the playlist. &#127911</li>
-                    <li>Find artists you like. </li>
-                    <li>Find links to event details in the playlist description.</li>
-                    <li>Get offline. Go out.</li>
+                    <p>That's it. When you log into spotify, you should see a playlist with tracks custom tailored to your area.</p>
+                    <p>NearHear is all about supporting live music, so once you discover an artist you like, checkout the playlist's description to find out when and where they perform.</p>
                 </ol>
             </div>
         </div>
-        <div class="pure-g dark-bg" v-if="!loading">
-            <div class="pure-u-1-4">
+        <div class="pure-g dark-bg-1" v-if="!loading">
+            <div class="pure-u-1 pure-u-md-1-3">
             </div>
-            <div class="pure-u-1-4">
+            <div class="pure-u-1 pure-u-md-1-3">
                 <div v-if="authNone">
                     <H2>Authorize with Spotify &#128275;</H2>
                     <p>We will send you over to spotify to login, and then spotify will give us permission to push playlists to your account. Easy as that.</p>
@@ -160,128 +218,162 @@
                     <H2>Spotify Authorization Success &#127821; </H2>
                     <p>We've validated you with spotify. In the next step you'll build the playlist.</p>
                 </div>
-            </div>
-            <div class="pure-u-1-4 playlist-action-wrapper" v-if="authNone || authError">
-                <input type="button" value="Authorize" class="pure-button pure-button-primary"  v-on:click="authSpotify" />
+                <form class="pure-form" v-if="authNone || authError"> 
+                    <fieldset>
+                        <input type="button" value="Authorize" class="pure-button pure-button-primary"  v-on:click="authSpotify" />
+                    </fieldset>
+                </form>
             </div>
         </div>
-        <div class="pure-g dark-bg" v-if="!loading && authSuccess">
-            <div class="pure-u-1-4">
-            </div>
-            <div class="pure-u-1-4">
+        <div class="pure-g dark-bg-1" v-if="!loading && showPickCity">
+            <div class="pure-u-1 pure-u-md-1-3"></div>
+            <div class="pure-u-1 pure-u-md-1-3">
                 <H2>Pick a city</H2>
                 <p>Currently we only support a handful of cities. But more will show up in the future. Checkout our mailing list to sign up, and show interest in bringing near hear to your town.</p>
-            </div>
-            <div class="pure-u-1-4 playlist-action-wrapper">
-                <select v-model="playlist.city" v-on:change="onCitySelected" >
-                    <option v-for="city in playlist.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="pure-g dark-bg" v-if="!loading && citySuccess">
-            <div class="pure-u-1-4"></div>
-            <div class="pure-u-1-4">
-                <div>
-                    <H2>Set your date range</H2>
-                    <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
-                </div>
-            </div>
-            <div class="pure-u-1-4 playlist-action-wrapper">
-                <div class="datepicker-wrap">
-                    <vuejs-datepicker  :value="playlist.startDate" name="startDate" placeholder="Pick Start Date" @selected="onStartDateSelected">
-                    </vuejs-sdatepicker>
-                </div>
-                <div class="datepicker-wrap">
-                    <vuejs-datepicker :value="playlist.endDate" name="endDate" placeholder="Pick End Date" @selected="onEndDateSelected">
-                    </vuejs-datepicker>
-                </div>
+                <form class="pure-form">
+                    <fieldset >
+                        <select v-model="playlist.city" v-on:change="onCitySelected" >
+                            <option v-for="city in playlist.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
+                        </select>
+                    </fieldset>
+                </form>
             </div>
         </div>
-        <div class="pure-g dark-bg" v-if="!loading && dateSuccess">
-            <div class="pure-u-1-4"></div>
-            <div class="pure-u-1-4">
+        <div class="pure-g dark-bg-1" v-if="!loading && showPickDates">
+            <div class="pure-u-1 pure-u-md-1-3"></div>
+            <div class="pure-u-1 pure-u-md-1-3">
+                <H2>Set your date range</H2>
+                <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
+                <form class="pure-form">
+                    <fieldset >
+                    <div class="datepicker-wrap">
+                        <vuejs-datepicker 
+                            :value="playlist.startDate" 
+                            :disabled-dates="disabledDates"
+                            name="startDate" 
+                            placeholder="Pick Start Date" 
+                            @selected="onStartDateSelected"
+                            >
+                        </vuejs-sdatepicker>
+                    </div>
+                    <div class="datepicker-wrap">
+                        <vuejs-datepicker 
+                            :value="playlist.endDate" 
+                            :disabled-dates="disabledDates"
+                            name="endDate" 
+                            placeholder="Pick End Date" 
+                            @selected="onEndDateSelected">
+                        </vuejs-datepicker>
+                    </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="pure-g dark-bg-1" v-if="!loading && showPickFilters">
+            <div class="pure-u-1 pure-u-md-1-3"></div>
+            <div class="pure-u-1 pure-u-md-1-3">
+                <h2>Apply Filters</h2>
+                <h4>{{filteredShows}} of {{totalShows}} shows</h4>
+                <div class="filter-wrapper" v-if="genres.length > 0">
+                    <h3>Genres</h3>
+                    <form class="pure-form">
+                        <fieldset >
+                            <label v-for="item in genres" v for="checkbox-radio-option-one" class="pure-checkbox">
+                                <input type="checkbox" name="genres" :id="item" :value="item" v-model="checkedGenres" />{{item}}
+                            </label>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="filter-wrapper" v-if="venues.length > 0">
+                    <h3>Venues</h3>
+                    <form class="pure-form">
+                        <fieldset >
+                            <label v-for="item in venues" for="checkbox-radio-option-one" class="pure-checkbox">
+                                <input type="checkbox" name="venues" :id="item" :value="item" v-model="checkedVenues" />{{item}}</label>
+                            </fieldset>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+        <div class="pure-g dark-bg-1" v-if="!loading && showCreatePlaylist">
+            <div class="pure-u-1 pure-u-md-1-3"></div>
+            <div class="pure-u-1 pure-u-md-1-3">
                 <H2>Almost there!</H2>
                 <p>All you gotta do now is press that playlist button. &#128293; </p>
-            </div>
-            <div class="pure-u-1-4 playlist-action-wrapper">
-                <input type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.created" />
+                <form class="pure-form">
+                    <fieldset >
+                        <div v-if="playlist.sending" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
+                        <input type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.created" v-if="!playlist.sending" />
+                    </fieldset>
+                </form>
             </div>
         </div>
-
-        <div class="pure-g dark-bg" v-if="!loading && playlist.created">
-            <div class="pure-u-1-4">
+        <div class="pure-g dark-bg-1" v-if="!loading && playlist.created && playlist.status == 1">
+            <div class="pure-u-1 pure-u-md-1-3">
             </div>
-            <div class="pure-u-2-4">
-                <div>
-                <H2>Congrats! You've made a nearhear playlist. Go check spotify and listen to it.</H2>
-                <p>Show times and info can be found in the playlist's description. To save this playlist book mark the page, or copy this <a href="playlistLink">link</a>.</p>
-                <p>If you went to the show, or you just liked the playlist. Let us know on instagram or twitter.</p>
+            <div class="pure-u-1 pure-u-md-1-3">
+                <H2>Congrats! You've made a nearhear playlist. </H2>
+                <p>check spotify and listen to it. Show times and info can be found in the playlist's description.
+                If you went to the show, or you just liked the playlist. Let us know on instagram or twitter.</p>
                 <p>instagram: @nearhear</p>
                 <p>twitter: @nearhear</p>
-                </div>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-3">
+            </div>
+        </div>
+        <div class="pure-g dark-bg-1" v-if="!loading && !playlist.created && playlist.status == -1">
+            <div class="pure-u-1 pure-u-md-1-3">
+            </div>
+            <div class="pure-u-1 pure-u-md-1-3">
+                <H2>Oh no! That didn't work. :(</H2>
+                <p>Would you <a href="mailto:feedback@nearhear.app">contact us</a> and let us know you had an issue? We will try our best to fix it.</p>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-3">
             </div>
         </div>
         <div class="pure-g mid-bg">
-            <div class="pure-u-1-4">
+            <div class="pure-u-1 pure-u-md-1-3">
             </div>
-            <div class="pure-u-1-4">
+            <div class="pure-u-1 pure-u-md-1-3">
                 <h1>Be Notified &#128036;</h1>
                 <p>NearHear is currently in the works, but we will be launching post-Covid.
                     Enter your email and city below to be notified when we launch in your town. 
                     Access will be limitted at first, and signing up now secures you a spot. 
                 </p>
-            </div>
-            <div class="pure-u-1-4 playlist-action-wrapper">
-                <form
-                class="pure-form"
-                action="https://script.google.com/macros/s/AKfycbwhvSAFS6sVZshApIUAWu5G3x4g06zH5iNK4gNv5iN_jyUvYIY/exec"
-                method="post"
-                >         
-                <fieldset >
-                    <input type="text" id="Email" name="Email" placeholder="Your Email"/>
-                    <input type="text" id="City" name="City" placeholder="Your City" />
-                    <input type="submit" value="Get Notified!" class="pure-button pure-button-primary" />
-                </fieldset>
-            </form>
+                <form class="pure-form">
+                    <fieldset >
+                        <input type="text" id="Email" name="Email" placeholder="Your Email" v-model="notified.email" />
+                        <input type="text" id="City" name="City" placeholder="Your City" v-model="notified.city"/>
+                        <div v-if="notified.status == status_codes.SENDING" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
+                        <input v-if="notified.status != status_codes.SENDING" type="submit" value="Get Notified!" class="pure-button pure-button-primary" v-on:click="getNotified"  :disabled="notified.status == status_codes.SENDING || notified.status == status_codes.SUCCESS" />
+                        <p v-if="notified.status === status_codes.SUCCESS">Thanks! We hope you'll hear from us again.</p>
+                        <p v-if="notified.status === status_codes.FAILURE">Whoops, something has gone wrong :(<a href="mailto:feedback@nearhear.app">Please let us know.</a></p>
+                    </fieldset>
+                    </form>
             </div>
         </div>
         <div class="pure-g dark-bg">
-            <div class="pure-u-1-4">
+            <div class="pure-u-1 pure-u-md-1-3">
             </div>
-            <div class="pure-u-1-4">
+            <div class="pure-u-1 pure-u-md-1-3">
                 <h1>Donate &#127867;</h1>
                 <p>Send us some love and throw some money our way! Nearhear is currently free and in a perfect world the generousity of others would keep it this way forever!</p>
-            </div>
-            <div class="pure-u-1-4 playlist-action-wrapper">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="pure-form">
                     <input type="hidden" name="cmd" value="_donations" />
                     <input type="hidden" name="business" value="liz@nearhear.app" />
                     <input type="hidden" name="currency_code" value="USD" />
                     <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
                     <img alt="" style="margin-left:2em" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-                    </form>
-            </form>
+                </form>
             </div>
         </div>
         <div class="pure-g mid-bg">
-            <div class="pure-u-1-4">
+            <div class="pure-u-1 pure-u-md-1-3">
             </div>
-            <div class="pure-u-1-4">
+            <div class="pure-u-1 pure-u-md-1-3">
                 <h1>Contact Us &#128227;</h1>
-                <p>Questions, comments, concerns, just want to be friends? Don't be a stranger. Reach out to us.</p>
-            </div>
-            <div class="pure-u-1-4 playlist-action-wrapper">
-                <form
-                class="pure-form"
-                action="https://script.google.com/macros/s/AKfycbwhvSAFS6sVZshApIUAWu5G3x4g06zH5iNK4gNv5iN_jyUvYIY/exec"
-                method="post"
-                >         
-                    <fieldset >
-                        <input type="text" id="Email" name="Email" placeholder="Your Email"/>
-                        <textarea id="comments" name="Comments" placeholder="Enter your comments here."></textarea>
-                        <input type="submit" value="Get Notified!" class="pure-button pure-button-primary" />
-                    </fieldset>
-                </form>
+                <p>Questions, comments, concerns, just want to be friends? Don't be a stranger. Reach out to us <a href="mailto:feedback@nearhear.app">feedback@nearhear.app</a>.</p>
             </div>
         </div>
     </div>
@@ -291,6 +383,12 @@
         const baseUrl = "https://nearhear.app"
         const headers = new Headers()
         const userIdCn = "spotify_user_id"
+        const status_codes = {
+            "FAILURE": -1,
+            "NONE": 0,
+            "SENDING": 1,
+            "SUCCESS": 2
+        }
         headers.append("Content-Type", "application/json"); 
 
         function setCookie(cname, cvalue, exdays) {
@@ -328,7 +426,6 @@
                 opts.body = JSON.stringify(body)
             }
 
-            console.log("fetching", baseUrl + path, opts)
             return fetch(baseUrl + path, opts)
         }
 
@@ -340,18 +437,15 @@
           data: {
             loading: true,
             tab: 'about',
-            step: {
-                one: false,
-                two: false,
-                three: false,
-                four: false
-            },
             auth: {
                 spotify: {
                     inOauthMode: undefined,
                     userid: undefined,
                     oauthUrl: undefined
                 }
+            },
+            features: {
+                filters: false
             },
             playlist: {
                 platforms: ['spotify'],
@@ -360,9 +454,26 @@
                 city: undefined,
                 cities: [],
                 venues: [],
-                created: false
+                status: status_codes.NONE
+            },
+            notified: {
+                city: '',
+                email: '',
+                sending: false,
+                status: status_codes.NONE
             },
             cities: [],
+            genres: ["punk", "folk", "hip-hop", "rap", "metal", "jazz"],
+            checkedGenres: ["punk", "folk", "hip-hop", "rap", "metal", "jazz"],
+            venues: [],
+            checkedVenues: [],
+            totalShows: 0,
+            filteredShows: 0,
+            disabledDates: {
+                from: new Date(Date.parse('2021-01-01 00:00:00')),
+                to: new Date(Date.parse('2010-01-01 00:00:00'))
+            },
+            status_codes: status_codes
           },
           mounted: function(){
             // check user id
@@ -370,10 +481,6 @@
             const userId = this.getUserIdFromCookie()
             if (userId) {
                 this.auth.spotify.userid = userId
-            }
-
-            if (this.auth.spotify.userid && this.auth.spotify.userid !== 'error') {
-                this.step.one = true
             }
                 
             // Grab current cities
@@ -404,8 +511,25 @@
               dateSuccess: function() {
                 return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
               },
+              filterSuccess: function() {
+                return this.totalShows > 0
+              },
               playListLink: function() {
                 return `${window.location.host}/index.html?city=${this.playlist.city}&sd=${this.playlist.startDate.toUTCString()}&ed=${this.playlist.endDate.toUTCString()}`
+              },
+
+              showPickCity: function() {
+                return this.authSuccess
+              },
+              showPickDates: function() {
+                return !!this.playlist.city
+              },
+              showPickFilters: function() {
+                  return this.features.filters && this.playlist.endDate
+              },
+              showCreatePlaylist: function() {
+                  return (this.features.filters && this.filteredShows > 0) ||
+                         (!this.features.filters && this.playlist.endDate)
               }
           },
           methods: {
@@ -432,6 +556,15 @@
             },
             onCitySelected: function(city) {
                 this.playlist.created =false
+                nhFetch("/nearHear/getDateRange", this.city)
+                    .then(resp => resp.text())
+                    .then(result => {
+                        const {startDate, endDate} = JSON.parse(result)
+                        this.disalbedDates = {
+                            from: Date.parse(startDate),
+                            to: Date.parse(endDate)
+                        }
+                    })
             },
             onStartDateSelected: function(date) {
                 if (this.playlist.created && this.playlist.startDate !== date) {
@@ -444,6 +577,26 @@
                     this.playlist.created = false
                 }
                 this.playlist.endDate = date
+
+                const payload = {
+                    startDate: this.playlist.startDate,
+                    endDate: this.playlist.endDate,
+                    city: this.playlist.city,
+                    minShows: 0
+                }
+
+                nhFetch("/nearHear/getFilters", "POST", payload)
+                    .then(resp => resp.text())
+                    .then(result => {
+                        const json = JSON.parse(result)
+                        console.log("FILTERS", json)
+
+                        this.totalShows = json.totalShowss
+                        this.venues = json.venues
+                        this.checkedVenues = Object.assign({}, venues)
+                        this.genres = json.genres
+                        this.checkedGenres = Object.assign({}, genres)
+                    })
             },
             createPlaylist: function() {
                 for (const platform of this.playlist.platforms) {
@@ -456,13 +609,34 @@
                         "DeleteExisting":false,
                         "Venues":this.playlist.Venues 
                     }
+                    this.playlist.status = status_codes.SENDING
                     nhFetch("/spotify/buildPlaylist", "POST", payload)
+                        .then(resp => resp.text())
+                        .then(result => {
+                            if (result.PlaylistCreated  && result.Success) {
+                                this.playlist.startDate = status_codes.SUCCESS
+                            } else {
+                                this.playlist.status = status_codes.FAILURE
+                            }
+                            console.log(JSON.parse(result)) 
+                        })                    
+                }
+            },
+            getNotified: function() {
+                const payload = {
+                    email: this.notified.email,
+                    city: this.notified.city 
+                }
+            
+                this.notified.status = status_codes.SENDING
+                nhFetch("/nearhear/addContact", "POST", payload)
                     .then(resp => resp.text())
                     .then(result => {
-                        this.playlist.created = true
-                        console.log(JSON.parse(result)) 
-                    })                    
-                }
+                        this.notified.status = status_codes.SUCCESS
+                    })
+                    .catch(() => {
+                        this.notified.status = status_codes.FAILURE
+                    })
             }
           }
         })
