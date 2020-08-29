@@ -443,8 +443,8 @@
                 }
             },
             features: {
-                filters: false,
-                autoDateRange: false
+                filters: true,
+                autoDateRange: true
             },
             playlist: {
                 platforms: ['spotify'],
@@ -557,7 +557,7 @@
                 this.playlist.created =false
 
                 if (this.features.autoDateRange) {
-                    nhFetch("/nearHear/getDateRange", this.city)
+                    nhFetch("/nearHear/getDateRange", "POST", { city: this.playlist.city })
                      .then(resp => resp.text())
                      .then(result => {
                         const {startDate, endDate} = JSON.parse(result)
