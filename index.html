@@ -557,7 +557,7 @@
                 this.playlist.created =false
 
                 if (this.features.autoDateRange) {
-                    nhFetch("/nearHear/getDateRange", "POST", { city: this.playlist.city })
+                    nhFetch("/media/getDateRange", "POST", { city: this.playlist.city })
                      .then(resp => resp.text())
                      .then(result => {
                         const {startDate, endDate} = JSON.parse(result)
