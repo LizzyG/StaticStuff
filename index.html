@@ -589,7 +589,7 @@
 
                 if (this.features.filters) {
 
-                    nhFetch("/nearHear/getFilters", "POST", payload)
+                    nhFetch("/media/getFilters", "POST", payload)
                      .then(resp => resp.text())
                      .then(result => {
                         const json = JSON.parse(result)
