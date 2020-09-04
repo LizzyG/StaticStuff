@@ -23,4 +23,4 @@ _(Mac and Linux users might need to install some packages. Check out the https-l
 
 Then run the server:
 
-`server .`
+`serve .`
