@@ -17,6 +17,7 @@
         #app .pure-g [class *= "pure-u"] {  font-family: "Nunito", sans-serif !important; letter-spacing: initial; }
         #app .pure-g {padding: 1em 0;}
         #app input, textarea, select { margin:.5em; }
+        #app .filter-wrapper .pure-form label { float: left; text-overflow: ellipsis; max-width: 10em; min-width: 10em; white-space: nowrap; overflow: hidden; }
         #blurb { text-align: center; }
         #footer { font-style: italic; color: cornsilk; position: fixed;  bottom: 0; right: 0; background: #000; width: 100%; height: 1em; text-align: right; padding: .5em; font-size: .75em; }
         #main-nav { margin-top: 7% }
@@ -24,7 +25,8 @@
         #main-nav .pure-menu-link { font-size: 1.3em; }
         #nh-logo { position: absolute; max-width: 18em; left: 5%; }
         #tagline { font-size: 1.5em; line-height: 6em; position: absolute; right: 5%;   }
-       
+        #app .toggleFilter a { cursor: pointer; } 
+        
         body {
             background-color:cornsilk;
             background-size: 50px;
@@ -73,10 +75,9 @@
             background-image: url(assets/nh_diag.svg);
         }
         .pop-bg {
-            background-color:deeppink;
+            background-color: #00e3f6;
             background-size: 50px;
-            /* background-image: url(assets/nh_diag.svg); */
-            color: cornsilk;
+            color: #352b3a;
             min-height: 200px;
         }
         .mid-bg {
@@ -99,10 +100,10 @@
             background-color:#00e3f6ff; 
             color:black; 
         }
-        .filter-wrapper { float:left; width: 40%;}
+        .filter-wrapper { float:left; margin-right: 1em };
         /* .datepicker-wrap { padding-top: 1em; padding-left: 3em; } */
-        ol { list-style: none; counter-reset: my-awesome-counter; padding-left: 0.5em; }
-        ol li { counter-increment: my-awesome-counter; }
+        ol { list-style: none; counter-reset: my-awesome-counter; }
+        ol li { counter-increment: my-awesome-counter; list-style: none; text-indent: -1em; }
         ol li::before { content: counter(my-awesome-counter) ". "; color: deeppink; font-weight: bold; }
     
         @media screen and (max-width: 64em) {
@@ -193,12 +194,13 @@
                 <h1>How It Works &#128640;</h1>
                 <ol>
                     <li>Authorize with Spotify</li>
-                    <li>Pick a city and a time frame.</li>
-                    <li>Filter by your favorite venue and genre.</li>
-                    <li>Let Nearhear create a playlist and send it your spotify.</li>
-                    <p>That's it. When you log into spotify, you should see a playlist with tracks custom tailored to your area.</p>
-                    <p>NearHear is all about supporting live music, so once you discover an artist you like, checkout the playlist's description to find out when and where they perform.</p>
+                    <li>Pick a city and a time frame</li>
+                    <li>Filter by your favorite venue and genre</li>
+                    <li>Tell Nearhear to create a custom playlist</li>
+                    <li>Check spotify for your new playlist</li>
                 </ol>
+                <p>That's it. When you log into spotify, you should see a playlist with tracks custom tailored to your area.</p>
+                <p>NearHear is all about supporting live music, so once you discover an artist you like, checkout the playlist's description to find out when and where they perform.</p>
             </div>
         </div>
         <div class="pure-g dark-bg-1" v-if="!loading">
@@ -233,7 +235,7 @@
                 <form class="pure-form">
                     <fieldset >
                         <select v-model="playlist.city" v-on:change="onCitySelected" >
-                            <option v-for="city in playlist.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
+                            <option v-for="city in playlist.opt.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
                         </select>
                     </fieldset>
                 </form>
@@ -249,7 +251,7 @@
                         <div class="datepicker-wrap">
                             <vuejs-datepicker 
                             :value="playlist.startDate" 
-                            :disabled-dates="disabledDates"
+                            :disabled-dates="playlist.opt.disabledDates"
                             name="startDate" 
                             placeholder="Pick Start Date" 
                             @selected="onStartDateSelected"
@@ -259,13 +261,13 @@
                     <div class="datepicker-wrap">
                         <vuejs-datepicker 
                         :value="playlist.endDate" 
-                        :disabled-dates="disabledDates"
+                        :disabled-dates="playlist.opt.disabledDates"
                         name="endDate" 
                         placeholder="Pick End Date" 
                         @selected="onEndDateSelected">
                     </vuejs-datepicker>
                 </div>
-                <p style="font-style: italic;">We hate to bring it up, but... due to covid-19, the show listings in the spring and summer of 2020 are very sparse. Picking dates prior to covid-19 will create a fuller playlist, and possibly take you back to better days.</p>
+                <p style="font-style: italic;">We hate to bring it up, but... due to covid-19, the show listings in the spring and summer of 2020 are very sparse. Picking dates prior to covid-19 will create a fuller playlist, and possibly take you back to better days.🌴</p>
             </fieldset>
         </form>
     </div>
@@ -274,23 +276,32 @@
     <div class="pure-u-1 pure-u-md-1-3"></div>
             <div class="pure-u-1 pure-u-md-1-3">
                 <h2>Apply Filters</h2>
-                <h4>{{filteredShows}} of {{totalShows}} shows</h4>
-                <div class="filter-wrapper" v-if="genres.length > 0">
+                <div class="filter-wrapper" v-if="playlist.opt.genres.length > 0">
                     <h3>Genres</h3>
+                    <div class="toggleFilter">
+                        <a v-on:click="toggleFilter('genres',true)">Check all</a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a v-on:click="toggleFilter('genres',false)">Uncheck All</a>
+                    </div>
                     <form class="pure-form">
                         <fieldset >
-                            <label v-for="item in genres" v for="checkbox-radio-option-one" class="pure-checkbox">
-                                <input type="checkbox" name="genres" :id="item" :value="item" v-model="checkedGenres" />{{item}}
+                            <label v-for="item in playlist.opt.genres" v for="checkbox-radio-option-one" class="pure-checkbox">
+                                <input type="checkbox" name="genres" :id="item" :value="item" v-model="playlist.genres" />{{item}}
                             </label>
                         </fieldset>
                     </form>
                 </div>
-                <div class="filter-wrapper" v-if="venues.length > 0">
+                <div class="filter-wrapper" v-if="playlist.opt.venues.length > 0">
                     <h3>Venues</h3>
+                    <div class="toggleFilter">
+                        <a v-on:click="toggleFilter('venues',true)">Check all</a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a v-on:click="toggleFilter('venues',false)">Uncheck All</a>
+                    </div>
                     <form class="pure-form">
                         <fieldset >
-                            <label v-for="item in venues" for="checkbox-radio-option-one" class="pure-checkbox">
-                                <input type="checkbox" name="venues" :id="item" :value="item" v-model="checkedVenues" />{{item}}</label>
+                            <label v-for="item in playlist.opt.venues" for="checkbox-radio-option-one" class="pure-checkbox">
+                                <input type="checkbox" name="venues" :id="item" :value="item" v-model="playlist.venues" />{{item}}</label>
                             </fieldset>
                     </form>
                 </div>
@@ -304,26 +315,33 @@
                 <p>All you gotta do now is press that playlist button. &#128293; </p>
                 <form class="pure-form">
                     <fieldset >
-                        <div v-if="playlist.sending" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
-                        <input type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.created" v-if="!playlist.sending" />
+                        <div   v-if="playlist.status === status_codes.SENDING" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
+                        <input v-if="playlist.status !== status_codes.SENDING" type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.status === status_codes.SUCCESS" />
                     </fieldset>
                 </form>
             </div>
         </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && playlist.created && playlist.status == 1">
+        <div class="pure-g dark-bg-1" v-if="!loading && playlist.status === status_codes.SUCCESS">
             <div class="pure-u-1 pure-u-md-1-3">
             </div>
             <div class="pure-u-1 pure-u-md-1-3">
                 <H2>Congrats! You've made a nearhear playlist. </H2>
-                <p>check spotify and listen to it. Show times and info can be found in the playlist's description.
-                If you went to the show, or you just liked the playlist. Let us know on instagram or twitter.</p>
-                <p>instagram: @nearhear</p>
-                <p>twitter: @nearhear</p>
+                <p>check spotify and listen to it. Show times and info can be found in the playlist's description.</p>
             </div>
             <div class="pure-u-1 pure-u-md-1-3">
             </div>
         </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && !playlist.created && playlist.status == -1">
+        <div class="pure-g dark-bg-1" v-if="!loading && playlist.status === status_codes.NO_RESULT">
+            <div class="pure-u-1 pure-u-md-1-3">
+            </div>
+            <div class="pure-u-1 pure-u-md-1-3">
+                <H2>No dice 🎲 </H2>
+                <p>Your filters resulted in an empty playlist. Try expanding your filters or your date range, and try again.</p>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-3">
+            </div>
+        </div>
+        <div class="pure-g dark-bg-1" v-if="!loading && playlist.status === status_codes.FAILURE">
             <div class="pure-u-1 pure-u-md-1-3">
             </div>
             <div class="pure-u-1 pure-u-md-1-3">
@@ -333,6 +351,7 @@
             <div class="pure-u-1 pure-u-md-1-3">
             </div>
         </div>
+
         <div class="pure-g mid-bg">
             <div class="pure-u-1 pure-u-md-1-3">
             </div>
@@ -382,12 +401,13 @@
         const headers = new Headers()
         const userIdCn = "spotify_user_id"
         const status_codes = {
+            "NO_RESULT": -2,
             "FAILURE": -1,
             "NONE": 0,
             "SENDING": 1,
             "SUCCESS": 2
         }
-        headers.append("Content-Type", "application/json"); 
+        headers.append("Content-Type", "text/plain"); 
 
         function setCookie(cname, cvalue, exdays) {
             var d = new Date();
@@ -447,30 +467,27 @@
                 autoDateRange: true
             },
             playlist: {
-                platforms: ['spotify'],
-                startDate: undefined,
-                endDate: undefined,
+                opt: {
+                    platforms: ['spotify'],
+                    disabledDates: {
+                        to: new Date(), // Disable all dates up to specific date
+                        from: new Date(), // Disable all dates after specific date
+                    },
+                    cities: [],
+                    genres: [],
+                    venues: []
+                },
+                startDate: new Date(),
+                endDate: new Date(),
                 city: undefined,
-                cities: [],
+                genres: [],
                 venues: [],
-                status: status_codes.NONE
+                status: status_codes.NONE,
             },
             notified: {
                 city: '',
                 email: '',
-                sending: false,
                 status: status_codes.NONE
-            },
-            cities: [],
-            genres: ["punk", "folk", "hip-hop", "rap", "metal", "jazz"],
-            checkedGenres: ["punk", "folk", "hip-hop", "rap", "metal", "jazz"],
-            venues: [],
-            checkedVenues: [],
-            totalShows: 0,
-            filteredShows: 0,
-            disabledDates: {
-                from: new Date(Date.parse('2021-01-01 00:00:00')),
-                to: new Date(Date.parse('2010-01-01 00:00:00'))
             },
             status_codes: status_codes
           },
@@ -488,8 +505,7 @@
                 "GET")
                 .then(response => response.text())
                 .then(result => {
-                    const obj = JSON.parse(result)
-                    this.playlist.cities = obj
+                    this.playlist.opt.cities = JSON.parse(result)
                     this.loading = false
                 })
                 .catch(error => console.log('error', error));
@@ -510,13 +526,6 @@
               dateSuccess: function() {
                 return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
               },
-              filterSuccess: function() {
-                return this.totalShows > 0
-              },
-              playListLink: function() {
-                return `${window.location.host}/index.html?city=${this.playlist.city}&sd=${this.playlist.startDate.toUTCString()}&ed=${this.playlist.endDate.toUTCString()}`
-              },
-
               showPickCity: function() {
                 return this.authSuccess
               },
@@ -524,11 +533,10 @@
                 return !!this.playlist.city
               },
               showPickFilters: function() {
-                  return this.features.filters && this.playlist.endDate
+                  return this.features.filters && (this.playlist.opt.genres.length > 0 || this.playlist.opt.venues.length > 0)
               },
               showCreatePlaylist: function() {
-                  return (this.features.filters && this.filteredShows > 0) ||
-                         (!this.features.filters && this.playlist.endDate)
+                  return this.features.filters && this.playlist.city
               }
           },
           methods: {
@@ -548,83 +556,105 @@
             buildPath: function() {
                 let path = window.location.pathname
                 let query = '?'
-                if (this.playlist.city)         query += `playlist_city=${this.playlist.city}&`
-                if (this.playlist.startDate)    query += `playlist_startDate=${this.playlist.startDate}&`
-                if (this.playlist.endDate)      query += `playlist_endDate=${this.playlist.endDate}&`
+                if (this.playlist.city)      query += `playlist_city=${this.playlist.city}&`
+                if (this.playlist.startDate) query += `playlist_startDate=${this.playlist.startDate}&`
+                if (this.playlist.endDate)   query += `playlist_endDate=${this.playlist.endDate}&`
                 return path + query
             },
             onCitySelected: function(city) {
-                this.playlist.created =false
+                this.playlist.status =status_codes.NONE
 
                 if (this.features.autoDateRange) {
-                    nhFetch("/media/getDateRange", "POST", { city: this.playlist.city })
+                    nhFetch("/media/getDateRange", "POST", { "city" : this.playlist.city })
                      .then(resp => resp.text())
                      .then(result => {
-                        const {startDate, endDate} = JSON.parse(result)
-                        this.disalbedDates = {
-                            from: Date.parse(startDate),
-                            to: Date.parse(endDate)
-                        }
+                        const json = JSON.parse(result)
+                        const startDate = new Date(json.StartDate)
+                        const endDate = new Date(json.EndDate)
+
+                        this.playlist.opt.disabledDates.to = startDate
+                        this.playlist.opt.disabledDates.from = endDate
+                        this.playlist.startDate = new Date(endDate - 2 * 24 * 60 * 60 * 1e3)
+                        this.playlist.endDate =  endDate
+                        this.onDateChanged()
                     })
                 }
             },
-            onStartDateSelected: function(date) {
-                if (this.playlist.created && this.playlist.startDate !== date) {
-                    this.playlist.created = false
-                }
-                this.playlist.startDate = date
-            },
-            onEndDateSelected: function(date) {
-                if (this.playlist.created && this.playlist.endDate !== date) {
-                    this.playlist.created = false
-                }
-                this.playlist.endDate = date
-
+            onDateChanged() {
                 const payload = {
                     startDate: this.playlist.startDate,
                     endDate: this.playlist.endDate,
                     city: this.playlist.city,
                     minShows: 0
                 }
-
                 if (this.features.filters) {
-
-                    nhFetch("/nearHear/getFilters", "POST", payload)
+                    nhFetch("/media/getFilters", "POST", payload)
                      .then(resp => resp.text())
                      .then(result => {
                         const json = JSON.parse(result)
-                        console.log("FILTERS", json)
-                        
-                        this.totalShows = json.totalShowss
-                        this.venues = json.venues
-                        this.checkedVenues = Object.assign({}, venues)
-                        this.genres = json.genres
-                        this.checkedGenres = Object.assign({}, genres)
+                        this.playlist.opt.genres = [...json.Genres]
+                        this.playlist.opt.venues = [...json.Venues]
+                        this.playlist.venues = [...json.Venues]
+                        this.playlist.genres = [...json.Genres]
                     })
                 }
             },
+            onStartDateSelected: function(date) {
+                if (this.playlist.startDate !== date) {
+                    this.playlist.status = status_codes.NONE
+                }
+
+                if (this.playlist.startDate !== date) {
+                    this.playlist.startDate = date
+                    this.onDateChanged()
+                }
+            },
+            onEndDateSelected: function(date) {
+                if (this.playlist.endDate !== date) {
+                    this.playlist.status = status_codes.NONE
+                }
+
+                if (this.playlist.endDate != date) {
+                    this.playlist.endDate = date
+                    this.onDateChanged()
+                }
+            },
+            toggleFilter(name, checked) {
+                this.playlist[name] = checked ? [...this.playlist.opt[name]] : []
+            },
             createPlaylist: function() {
-                for (const platform of this.playlist.platforms) {
+                for (const platform of this.playlist.opt.platforms) {
                     const payload = {
-                        "Platform":"spotify",
+                        "Platform": platform,
                         "UserId": this.auth[platform].userid,
-                        "City": this.playlist.city,
-                        "StartDate": this.playlist.startDate,
-                        "EndDate": this.playlist.endDate,
                         "DeleteExisting":false,
-                        "Venues":this.playlist.Venues 
+                        "Filters": {
+                            "City": this.playlist.city,
+                            "StartDate": this.playlist.startDate,
+                            "EndDate": this.playlist.endDate,
+                            "Venues":this.playlist.venues,
+                            "Genres":this.playlist.genres
+                        }
                     }
                     this.playlist.status = status_codes.SENDING
-                    nhFetch("/spotify/buildPlaylist", "POST", payload)
+                    nhFetch("/spotify/buildFilteredPlaylist", "POST", payload)
                         .then(resp => resp.text())
                         .then(result => {
-                            if (result.PlaylistCreated  && result.Success) {
-                                this.playlist.startDate = status_codes.SUCCESS
-                            } else {
+                            const json = JSON.parse(result)
+
+                            if (json.Success && !json.PlaylistCreated) {
+                                this.playlist.status = status_codes.NO_RESULT
+                            }
+                            else if (json.Success) {
+                                this.playlist.status = status_codes.SUCCESS
+                            }
+                            else {
                                 this.playlist.status = status_codes.FAILURE
                             }
-                            console.log(JSON.parse(result)) 
-                        })                    
+                        })   
+                        .catch(() => {
+                            this.playlist.status = status_codes.FAILURE
+                        })                 
                 }
             },
             getNotified: function() {
