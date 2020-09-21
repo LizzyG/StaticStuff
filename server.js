@@ -30,7 +30,7 @@ const server = http.createServer(function (req, res) {
   console.log("serving", filePath);
   fs.readFile(filePath, function (error, content) {
     res.writeHead(200, { "Content-Type": contentType });
-    res.end(content, "utf-8");
+    res.end(content.replace("${NEARHEAR_APP}", process.env["NEARHEAR_APP"] || "nearhear.app"), "utf-8");
   });
 });
 
