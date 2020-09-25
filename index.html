@@ -11,17 +11,24 @@
 </head>
 <body>
     <style scoped="">
+        :root {
+            --bg-color: #f5fcff;
+            --bg-color-2: #d7eef8;
+            --highlight-color: #00e3f6ff;
+            --text-color:black;
+            --text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            --bg-img: url(assets/nh_diag.svg);
+        }
         [v-cloak] {display: none}
         #app { font-family: "Nunito", sans-serif !important; letter-spacing: initial !important; width:100%; letter-spacing: initial;}
-        #app .vdp-datepicker__calendar { color: black; }
+        #app .vdp-datepicker__calendar { color: var(--text-color); }
         /* #app .pure-g { padding-bottom: 2em; padding-top: 2em; letter-spacing: initial; } */
         #app .pure-g [class *= "pure-u"] {  font-family: "Nunito", sans-serif !important; letter-spacing: initial; }
         #app .pure-g.new {padding-top: 1em;}
         #app .pure-g.end {padding-bottom:1em; }
         #app input, textarea, select { margin:.5em; }
         #app .filter-wrapper .pure-form label { float: left; text-overflow: ellipsis; max-width: 10em; min-width: 10em; white-space: nowrap; overflow: hidden; }
-        #blurb { text-align: center; }
-        #footer { font-style: italic; color: cornsilk; position: fixed;  bottom: 0; right: 0; background: #000; width: 100%; height: 1em; text-align: right; padding: .5em; font-size: .75em; }
+        #footer { font-style: italic; color: var(--bg-color-1); position: fixed;  bottom: 0; right: 0; background: var(bg-color-3); width: 100%; height: 1em; text-align: right; padding: .5em; font-size: .75em; }
         #main-nav { margin-top: 7% }
         #main-nav ul { float:right }
         #main-nav .pure-menu-link { font-size: 1.3em; }
@@ -29,13 +36,13 @@
         #tagline { font-size: 1.5em; line-height: 6em; position: absolute; right: 5%;   }
         #app .toggleFilter a { cursor: pointer; } 
         
-        #top-nav > .pure-g { min-height: 200px;}
+        #top-nav { padding-top: .5em; border-bottom: solid 1px var(--highlight-color); position: fixed; width: 100%; height: 10em; background-color: var(--bg-color);}
+
+        #main-content { padding-top: 204px; }
 
         body {
-            background-color:cornsilk;
-            background-size: 50px;
-            background-image: url(assets/nh_diag.svg);
-            color: #201a23;
+            background-color:var(--bg-color-1);
+            color: var(--text-color);
         }        
         body .container {
             font-family: Nunito !important;
@@ -43,7 +50,8 @@
             font-size: 1.2em;
         }
         h1 {
-            padding-top: 1em;
+            font-size: 2.5em;
+            font-weight: 200;
         }
         p {     
             text-align: justify;
@@ -51,64 +59,36 @@
             padding-bottom: 1em;
         }
         a, a:active, a:visited {
-            color: deeppink;
+            color: var(--highlight-color);
             font-weight: bold;
         }
 
         .light-bg {
             margin-top:2em;
-            color: #201a23;
-        }
-        .show-bg {
-            background-image: url('./assets/show.png');
-            background-repeat: no-repeat;
-            background-color: #000;
-            background-position: center;
-            color: cornsilk;
+            color: var(--text-color);
         }
         .dark-bg, .dark-bg-1 {
-            background-color:#133c4c;
-            background-size: 50px;
-            color: cornsilk;
-            background-image: url(assets/nh_diag.svg);
+            background-color:var(--bg-color);
+            color: var(--bg-color-1);
+            
 
         }
         .dark-bg-1 { 
-            background-color:#23132b; 
-            background-image: url(assets/nh_diag.svg);
+            background-color:var(--bg-color-2); 
         }
-        .pop-bg {
-            background-color: #00e3f6;
-            background-size: 50px;
-            color: #352b3a;
-        }
-        .mid-bg {
-            background-color:#352b3a;
-            background-size: 50px;
-            background-image: url(assets/nh_diag.svg);
-            color: cornsilk;
-        }
-        .pure-button-primary,
-        .button-success,
-        .button-error,
-        .button-warning,
-        .button-secondary {
-            color: white;
+        .pure-button-primary {
             border-radius: 8px;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        }
-        .pure-button-primary { 
-            background-color:#00e3f6ff; 
-            color:black; 
+            text-shadow:var(--text-shadow);
+            background-color:var(--highlight-color); 
+            color:var(--text-color); 
         }
         .filter-wrapper { float:left; margin-right: 1em };
         /* .datepicker-wrap { padding-top: 1em; padding-left: 3em; } */
         ol { list-style: none; counter-reset: my-awesome-counter; }
         ol li { counter-increment: my-awesome-counter; list-style: none; text-indent: -1em; }
-        ol li::before { content: counter(my-awesome-counter) ". "; color: deeppink; font-weight: bold; }
+        ol li::before { content: counter(my-awesome-counter) ". "; color: var(--highlight-color); font-weight: bold; }
     
         @media screen and (max-width: 64em) {
-            #blurb {max-width: initial;}
             #app h1 {font-size: 1.5em; letter-spacing: initial; }
             #tagline { display: none; width:0; height: 0; }
             #app input, textarea { max-width: 9em }
@@ -135,17 +115,17 @@
           left: 10px;
         }
         .ldio-ocss36wta5n div:nth-child(1) {
-          background: #382044;
+          background: var(--highlight-color);
           animation: ldio-ocss36wta5n 1s linear infinite;
           animation-delay: -0.5s;
         }
         .ldio-ocss36wta5n div:nth-child(2) {
-          background: #00e5ff;
+          background: var(--highlight-color);
           animation: ldio-ocss36wta5n 1s linear infinite;
           animation-delay: 0s;
         }
         .ldio-ocss36wta5n div:nth-child(3) {
-          background: #382044;
+          background: var(--highlight-color);
           animation: ldio-ocss36wta5n-o 1s linear infinite;
           animation-delay: -0.5s;
         }
@@ -175,20 +155,13 @@
                 </div>
             </div>
         </div>
-        <div class="pure-g show-bg">
-            <div class="pure-u-1 pure-u-md-1-5">
-            </div>
-            <div class="pure-u-1 pure-u-md-3-5">
-                <h1 id="blurb">NearHear allows you to create Spotify playlists of artists with upcoming
-                    performances in your area. Listen to old favorites or discover new ones,
-                    then go see them live.</h1>
-            </div>
-        </div>
-        <div class="pure-g dark-bg">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <h1>How It Works &#128640;</h1>
+        <div id="main-content">
+            <vue-section title="What is NearHear?">
+                <P>NearHear allows you to create Spotify playlists of artists with upcoming
+                    performances in your area. </P>
+            </vue-section>
+            
+            <vue-section title="How It Works &#128640;" is-dark=true>
                 <ol>
                     <li>Authorize with Spotify</li>
                     <li>Pick a city and a time frame</li>
@@ -198,166 +171,131 @@
                 </ol>
                 <p>That's it. When you log into spotify, you should see a playlist with tracks custom tailored to your area.</p>
                 <p>NearHear is all about supporting live music, so once you discover an artist you like, checkout the playlist's description to find out when and where they perform.</p>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <h1>Build a playlist</h1>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <div v-if="authNone">
-                    <H2>Authorize with Spotify &#128275;</H2>
-                    <p>We will send you over to spotify to login, and then spotify will give us permission to push playlists to your account. Easy as that.</p>
-                </div>
-                <div class="warning" v-if="authError">
-                    <H2>Authorization Issue &#129320; </H2>
-                    <H3>Oh no! Something went awry...</H3>
-                    <p>Seems like there's a problem authenticating with spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
-                </div>
-                <div class="warning" v-if="authSuccess">
-                    <H2>Spotify Authorization Success &#127821; </H2>
-                    <p>We've validated you with spotify. In the next step you'll build the playlist.</p>
-                </div>
-                <form class="pure-form" v-if="authNone || authError"> 
-                    <fieldset>
-                        <input type="button" value="Authorize" class="pure-button pure-button-primary"  v-on:click="authSpotify" />
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && showPickCity">
-            <div class="pure-u-1 pure-u-md-1-3"></div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <H2>Pick a city</H2>
-                <p>Currently we only support a couple of cities, but more will show up in the future. Check out our mailing list to sign up, and show interest in bringing NearHear to your town.</p>
-                <form class="pure-form">
-                    <fieldset >
-                        <select v-model="playlist.city" v-on:change="onCitySelected" >
-                            <option v-for="city in playlist.opt.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
-                        </select>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && showPickDates">
-            <div class="pure-u-1 pure-u-md-1-3"></div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <H2>Set your date range</H2>
-                <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
-                <form class="pure-form">
-                    <fieldset >
-                        <div class="datepicker-wrap">
-                            <vuejs-datepicker 
-                                :value="playlist.startDate" 
-                                :disabled-dates="playlist.opt.disabledDates"
-                                name="startDate" 
-                                placeholder="Pick Start Date" 
-                                @selected="onStartDateSelected">
-                            </vuejs-sdatepicker>
-                        </div>
-                        <div class="datepicker-wrap">
-                            <vuejs-datepicker 
-                                :value="playlist.endDate" 
-                                :disabled-dates="playlist.opt.disabledDates"
-                                name="endDate" 
-                                placeholder="Pick End Date" 
-                                @selected="onEndDateSelected">
-                            </vuejs-datepicker>
-                        </div>
-                        <p style="font-style: italic;">We hate to bring it up, but... due to covid-19, the show listings in the spring and summer of 2020 are very sparse. Picking dates prior to covid-19 will create a fuller playlist, and possibly take you back to better days.🌴</p>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && showPickFilters">
-            <div class="pure-u-1 pure-u-md-1-3"></div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <h2>Apply Filters</h2>
-                <div class="filter-wrapper" v-if="playlist.opt.genres.length > 0">
-                    <h3>Genres</h3>
-                    <div class="toggleFilter">
-                        <a v-on:click="toggleFilter('genres',true)">Check all</a>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <a v-on:click="toggleFilter('genres',false)">Uncheck All</a>
+            </vue-section>
+
+            <vue-section title="Build a playlist" v-if="!loading">
+                
+                <!-- Spotify Auth -->
+                <div>
+                    <div v-if="authNone">
+                        <H2>Authorize with Spotify &#128275;</H2>
+                        <p>We will send you over to spotify to login, and then spotify will give us permission to push playlists to your account. Easy as that.</p>
                     </div>
-                    <form class="pure-form">
-                        <fieldset >
-                            <label v-for="item in playlist.opt.genres" v for="checkbox-radio-option-one" class="pure-checkbox">
-                                <input type="checkbox" name="genres" :id="item" :value="item" v-model="playlist.genres" v-on:change="onFilterChange" />{{item}}
-                            </label>
+                    <div class="warning" v-if="authError">
+                        <H2>Authorization Issue &#129320; </H2>
+                        <H3>Oh no! Something went awry...</H3>
+                        <p>Seems like there's a problem authenticating with spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
+                    </div>
+                    <div class="warning" v-if="authSuccess">
+                        <H2>Spotify Authorization Success &#127821; </H2>
+                        <p>We've validated you with spotify. In the next step you'll build the playlist.</p>
+                    </div>
+                    <form class="pure-form" v-if="authNone || authError"> 
+                        <fieldset>
+                            <input type="button" value="Authorize" class="pure-button pure-button-primary"  v-on:click="authSpotify" />
                         </fieldset>
                     </form>
                 </div>
-                <div class="filter-wrapper" v-if="playlist.opt.venues.length > 0">
-                    <h3>Venues</h3>
-                    <div class="toggleFilter">
-                        <a v-on:click="toggleFilter('venues',true)">Check all</a>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <a v-on:click="toggleFilter('venues',false)">Uncheck All</a>
-                    </div>
+
+                <!-- Set Filters -->
+                <div v-if="showPickCity">
+                    <H2>Pick a city</H2>
+                    <p>Currently we only support a couple of cities, but more will show up in the future. Check out our mailing list to sign up, and show interest in bringing NearHear to your town.</p>
                     <form class="pure-form">
                         <fieldset >
-                            <label v-for="item in playlist.opt.venues" for="checkbox-radio-option-one" class="pure-checkbox">
-                                <input type="checkbox" name="venues" :id="item" :value="item" v-model="playlist.venues" v-on:change="onFilterChange" />{{item}}</label>
+                            <select v-model="playlist.city" v-on:change="onCitySelected" >
+                                <option v-for="city in playlist.opt.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
+                            </select>
                         </fieldset>
                     </form>
                 </div>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && showCreatePlaylist">
-            <div class="pure-u-1 pure-u-md-1-3"></div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <H2>Almost there!</H2>
-                <p>All you gotta do now is press that playlist button. &#128293; </p>
-                <form class="pure-form">
-                    <fieldset >
-                        <div   v-if="playlist.status === status_codes.SENDING" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
-                        <input v-if="playlist.status !== status_codes.SENDING" type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.status === status_codes.SUCCESS" />
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && playlist.status === status_codes.SUCCESS">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <H2>Congrats! You've made a nearhear playlist. </H2>
-                <p>check spotify and listen to it. Show times and info can be found in the playlist's description.</p>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && playlist.status === status_codes.NO_RESULT">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <H2>No dice 🎲 </H2>
-                <p>Your filters resulted in an empty playlist. Try expanding your filters or your date range, and try again.</p>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1" v-if="!loading && playlist.status === status_codes.FAILURE">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <H2>Oh no! That didn't work. :(</H2>
-                <p>Would you <a href="mailto:feedback@nearhear.app">contact us</a> and let us know you had an issue? We will try our best to fix it.</p>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-        </div>
-        <div class="pure-g dark-bg">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <h1>Be Notified &#128036;</h1>
+                <div v-if="showPickDates">
+                    <H2>Set your date range</H2>
+                    <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
+                    <form class="pure-form">
+                        <fieldset >
+                            <div class="datepicker-wrap">
+                                <vuejs-datepicker 
+                                    :value="playlist.startDate" 
+                                    :disabled-dates="playlist.opt.disabledDates"
+                                    name="startDate" 
+                                    placeholder="Pick Start Date" 
+                                    @selected="onStartDateSelected">
+                                </vuejs-sdatepicker>
+                            </div>
+                            <div class="datepicker-wrap">
+                                <vuejs-datepicker 
+                                    :value="playlist.endDate" 
+                                    :disabled-dates="playlist.opt.disabledDates"
+                                    name="endDate" 
+                                    placeholder="Pick End Date" 
+                                    @selected="onEndDateSelected">
+                                </vuejs-datepicker>
+                            </div>
+                            <p style="font-style: italic;">We hate to bring it up, but... due to covid-19, the show listings in the spring and summer of 2020 are very sparse. Picking dates prior to covid-19 will create a fuller playlist, and possibly take you back to better days.🌴</p>
+                        </fieldset>
+                    </form>
+                </div>
+                <div v-if="showPickFilters">
+                    <h2>Apply Filters</h2>
+                    <div class="filter-wrapper" v-if="playlist.opt.genres.length > 0">
+                        <h3>Genres</h3>
+                        <div class="toggleFilter">
+                            <a v-on:click="toggleFilter('genres',true)">Check all</a>
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            <a v-on:click="toggleFilter('genres',false)">Uncheck All</a>
+                        </div>
+                        <form class="pure-form">
+                            <fieldset >
+                                <label v-for="item in playlist.opt.genres" v for="checkbox-radio-option-one" class="pure-checkbox">
+                                    <input type="checkbox" name="genres" :id="item" :value="item" v-model="playlist.genres" v-on:change="onFilterChange" />{{item}}
+                                </label>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="filter-wrapper" v-if="playlist.opt.venues.length > 0">
+                        <h3>Venues</h3>
+                        <div class="toggleFilter">
+                            <a v-on:click="toggleFilter('venues',true)">Check all</a>
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            <a v-on:click="toggleFilter('venues',false)">Uncheck All</a>
+                        </div>
+                        <form class="pure-form">
+                            <fieldset >
+                                <label v-for="item in playlist.opt.venues" for="checkbox-radio-option-one" class="pure-checkbox">
+                                    <input type="checkbox" name="venues" :id="item" :value="item" v-model="playlist.venues" v-on:change="onFilterChange" />{{item}}</label>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div v-if="showCreatePlaylist">
+                    <H2>Almost there!</H2>
+                    <p>All you gotta do now is press that playlist button. &#128293; </p>
+                    <form class="pure-form">
+                        <fieldset >
+                            <div   v-if="playlist.status === status_codes.SENDING" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
+                            <input v-if="playlist.status !== status_codes.SENDING" type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.status === status_codes.SUCCESS" />
+                        </fieldset>
+                    </form>
+                </div>
+
+                <!-- Outcomes -->
+                <div v-if="playlist.status === status_codes.SUCCESS">
+                    <H2>Congrats! You've made a nearhear playlist. </H2>
+                    <p>Check spotify and listen to it. Show times and info can be found in the playlist's description.</p>
+                </div>
+                <div v-if="playlist.status === status_codes.NO_RESULT">
+                    <H2>No dice 🎲 </H2>
+                    <p>Your filters resulted in an empty playlist. Try expanding your filters or your date range, and try again.</p>
+                </div>
+                <div v-if="playlist.status === status_codes.FAILURE">
+                    <H2>Oh no! That didn't work. :(</H2>
+                    <p>Would you <a href="mailto:feedback@nearhear.app">contact us</a> and let us know you had an issue? We will try our best to fix it.</p>
+                </div>
+
+            </vue-section>
+            
+            <vue-section title="Be Notified &#128036;" is-dark=true>
                 <p>NearHear is currently in the works, but we will hopefully be launching more cities post-covid. Enter your email and city below to be notified when we launch in your town.</p>
                 <form class="pure-form">
                     <fieldset >
@@ -368,14 +306,10 @@
                         <p v-if="notified.status === status_codes.SUCCESS">Thanks! We hope you'll hear from us again.</p>
                         <p v-if="notified.status === status_codes.FAILURE">Whoops, something has gone wrong :(<a href="mailto:feedback@nearhear.app">Please let us know.</a></p>
                     </fieldset>
-                    </form>
-            </div>
-        </div>
-        <div class="pure-g dark-bg-1">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <h1>Donate &#127867;</h1>
+                </form>
+            </vue-section>
+            
+            <vue-section title="Donate &#127867;" >
                 <p>Send us some love and throw some money our way! Nearhear is currently free and in a perfect world the generousity of others would keep it this way forever!</p>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="pure-form">
                     <input type="hidden" name="cmd" value="_donations" />
@@ -384,20 +318,21 @@
                     <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
                     <img alt="" style="margin-left:2em" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
                 </form>
-            </div>
-        </div>
-        <div class="pure-g dark-bg">
-            <div class="pure-u-1 pure-u-md-1-3">
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <h1>Contact Us &#128227;</h1>
+            </vue-section>
+
+            <vue-section title="Contact Us &#128227;" is-dark=true>
                 <p>Questions, comments, concerns, just want to be friends? Don't be a stranger. Reach out to us <a href="mailto:feedback@nearhear.app">feedback@nearhear.app</a>.</p>
-            </div>
+            </vue-section>
         </div>
     </div>
     <div id="footer">Copyright 2020 Offline Development LLC</div>
+
     <script>
-        const baseUrl = "${NEARHEAR_APP}"
+        let baseUrl = "${NEARHEAR_APP}"
+        if (baseUrl.indexOf("NEARHEAR_APP") > 0) {
+            baseUrl = "https://nearhear.app"
+        }
+
         const headers = new Headers()
         const userIdCn = "spotify_user_id"
         const status_codes = {
@@ -447,10 +382,32 @@
             return fetch(baseUrl + path, opts)
         }
 
+        var vueSection = {
+            props: ['title','isDark'],
+            computed: {
+                classObject: function() {
+                    return {
+                        'dark-bg-1': this.isDark
+                    }
+                }
+            },
+            template: `
+            <div class="pure-g" v-bind:class="classObject">
+                <div class="pure-u-1 pure-u-md-1-3">
+                </div>
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <h1 v-if="title">{{title}}</h1>
+                    <slot></slot>
+                </div>
+            </div>
+            `
+        }
+
         var app = new Vue({
           el: '#app',
           components: {
-            vuejsDatepicker
+            vuejsDatepicker,
+            vueSection
           },
           data: {
             loading: true,
