@@ -32,6 +32,8 @@ const server = http.createServer(function (req, res) {
     res.writeHead(200, { "Content-Type": contentType });
     if (contentType=="text/html"){
       res.end(content.toString('utf8').replace("${NEARHEAR_APP}", process.env["NEARHEAR_APP"]), "utf-8");
+    }else{
+      res.end(content, "utf-8");
     }
   });
 });
