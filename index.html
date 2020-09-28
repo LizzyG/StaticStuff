@@ -187,8 +187,7 @@
         </div>
         <div id="main-content">
             <vue-section title="What is NearHear?">
-                <P>NearHear allows you to create Spotify playlists of artists with upcoming
-                    performances in your area. </P>
+                <P>NearHear allows you to create Spotify playlists of artists that perform in your area. </P>
             </vue-section>
             
             <vue-section title="How It Works &#128640;" is-dark=true>
@@ -197,10 +196,10 @@
                     <li>Pick a city and a time frame</li>
                     <li>Filter by your favorite venues and genres</li>
                     <li>Tell NearHear to create a custom playlist</li>
-                    <li>Check spotify for your new playlist</li>
+                    <li>Check Spotify for your new playlist</li>
                 </ol>
-                <p>That's it. When you log into spotify, you should see a playlist with tracks custom tailored to your area.</p>
-                <p>NearHear is all about supporting live music, so once you discover an artist you like, checkout the playlist's description to find out when and where they perform.</p>
+                <p>That's it. When you log into Spotify, you should see a playlist with tracks custom tailored to your area.</p>
+                <!-- <p>NearHear is all about supporting live music, so once you discover an artist you like, checkout the playlist's description to find out when and where they perform.</p> -->
             </vue-section>
 
             <vue-section title="Build a playlist" anchor="build" v-if="!loading">
@@ -209,16 +208,16 @@
                 <div>
                     <div v-if="authNone">
                         <H2>Authorize with Spotify &#128275;</H2>
-                        <p>We will send you over to spotify to login, and then spotify will give us permission to push playlists to your account. Easy as that.</p>
+                        <p>We will send you over to Spotify to login, and then Spotify will give us permission to push playlists to your account. We never see your credentials, just your Spotify user id so it's easy and secure.</p>
                     </div>
                     <div class="warning" v-if="authError">
                         <H2>Authorization Issue &#129320; </H2>
                         <H3>Oh no! Something went awry...</H3>
-                        <p>Seems like there's a problem authenticating with spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
+                        <p>Seems like there's a problem authenticating with Spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
                     </div>
                     <div class="warning" v-if="authSuccess">
                         <H2>Spotify Authorization Success &#127821; </H2>
-                        <p>We've validated you with spotify. In the next step you'll build the playlist.</p>
+                        <p>We've validated you with Spotify. In the next step you'll build the playlist.</p>
                     </div>
                     <form class="pure-form" v-if="authNone || authError"> 
                         <fieldset>
@@ -241,7 +240,7 @@
                 </div>
                 <div v-if="showPickDates">
                     <H2>Set your date range</H2>
-                    <p>We will build the playist based on artists playing during this time frame in {{playlist.city}}.</p>
+                    <p>We will build the playist based on artists performing during this time frame in {{playlist.city}}.</p>
                     <form class="pure-form">
                         <fieldset >
                             <div class="datepicker-wrap">
@@ -300,7 +299,7 @@
                 </div>
                 <div v-if="showCreatePlaylist">
                     <H2>Almost there!</H2>
-                    <p>All you gotta do now is press that playlist button. &#128293; </p>
+                    <p>All you gotta do now is press that Create Playlist button. &#128293; </p>
                     <form class="pure-form">
                         <fieldset >
                             <div   v-if="playlist.status === status_codes.SENDING" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
@@ -312,7 +311,7 @@
                 <!-- Outcomes -->
                 <div v-if="playlist.status === status_codes.SUCCESS">
                     <H2>Congrats! You've made a NearHear playlist. </H2>
-                    <p>Check spotify and listen to it. Show times and info can be found in the playlist's description.</p>
+                    <p>Head to Spotify and listen to it.</p>
                 </div>
                 <div v-if="playlist.status === status_codes.NO_RESULT">
                     <H2>No dice 🎲 </H2>
