@@ -589,10 +589,10 @@
                      .then(resp => resp.text())
                      .then(result => {
                         const json = JSON.parse(result)
-                        this.playlist.opt.genres = [...json.Genres]
+                        this.playlist.opt.genres = [...json.BroadGenres]
                         this.playlist.opt.venues = [...json.Venues]
                         this.playlist.venues = [...json.Venues]
-                        this.playlist.genres = [...json.Genres]
+                        this.playlist.genres = [...json.BroadGenres]
                     })
                 }
             },
