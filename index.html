@@ -267,17 +267,17 @@
                 </div>
                 <div v-if="showPickFilters">
                     <h2>Apply Filters</h2>
-                    <div class="filter-wrapper" v-if="playlist.opt.genres.length > 0">
+                    <div class="filter-wrapper" v-if="playlist.opt.broadGenres.length > 0">
                         <h3>Genres</h3>
                         <div class="toggleFilter">
-                            <a v-on:click="toggleFilter('genres',true)">Check all</a>
+                            <a v-on:click="toggleFilter('broadGenres',true)">Check all</a>
                             &nbsp;&nbsp;|&nbsp;&nbsp;
-                            <a v-on:click="toggleFilter('genres',false)">Uncheck All</a>
+                            <a v-on:click="toggleFilter('broadGenres',false)">Uncheck All</a>
                         </div>
                         <form class="pure-form">
                             <fieldset >
-                                <label v-for="item in playlist.opt.genres" v for="checkbox-radio-option-one" class="pure-checkbox">
-                                    <input type="checkbox" name="genres" :id="item" :value="item" v-model="playlist.genres" v-on:change="onFilterChange" />{{item}}
+                                <label v-for="item in playlist.opt.broadGenres" v for="checkbox-radio-option-one" class="pure-checkbox">
+                                    <input type="checkbox" name="broadGenres" :id="item" :value="item" v-model="playlist.broadGenres" v-on:change="onFilterChange" />{{item}}
                                 </label>
                             </fieldset>
                         </form>
@@ -471,13 +471,15 @@
                         from: new Date(), // Disable all dates after specific date
                     },
                     cities: [],
-                    genres: [],
+                    broadGenres: [],
+                    spotifyGenres: [],
                     venues: []
                 },
                 startDate: new Date(),
                 endDate: new Date(),
                 city: undefined,
-                genres: [],
+                broadGenres: [],
+                spotifyGenres: [],
                 venues: [],
                 status: status_codes.NONE,
             },
@@ -530,7 +532,7 @@
                 return !!this.playlist.city
               },
               showPickFilters: function() {
-                  return this.features.filters && (this.playlist.opt.genres.length > 0 || this.playlist.opt.venues.length > 0)
+                  return this.features.filters && (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.venues.length > 0)
               },
               showCreatePlaylist: function() {
                   return this.features.filters && this.playlist.city
@@ -589,10 +591,10 @@
                      .then(resp => resp.text())
                      .then(result => {
                         const json = JSON.parse(result)
-                        this.playlist.opt.genres = [...json.BroadGenres]
+                        this.playlist.opt.broadGenres = [...json.BroadGenres]
+                        this.playlist.opt.spotifyGenres = [...json.SpotifyGenres]
                         this.playlist.opt.venues = [...json.Venues]
                         this.playlist.venues = [...json.Venues]
-                        this.playlist.genres = [...json.BroadGenres]
                     })
                 }
             },
@@ -634,7 +636,8 @@
                             "StartDate": this.playlist.startDate,
                             "EndDate": this.playlist.endDate,
                             "Venues":this.playlist.venues,
-                            "Genres":this.playlist.genres
+                            "BroadGenres":this.playlist.broadGenres,
+                            "SpotifyGenres":this.playlist.spotifyGenres
                         }
                     }
                     this.playlist.status = status_codes.SENDING
