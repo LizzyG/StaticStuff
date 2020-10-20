@@ -18,8 +18,8 @@
             --text-color:black;
             --text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
             --bg-img: url(assets/nh_diag.svg);
-            --top-h: 254px;
-            --top-h-n: -254px;
+            --top-h: 185px;
+            --top-h-n: -185px;
         }
         [v-cloak] {display: none}
         #app { font-family: "Nunito", sans-serif !important; letter-spacing: initial !important; width:100%; letter-spacing: initial;}
@@ -34,15 +34,15 @@
         #main-nav { margin-top: 7% }
         #main-nav ul { float:right }
         #main-nav .pure-menu-link { font-size: 1.3em; }
-        #nh-logo { position: absolute; max-width: 18em; left: 5%; top: 10px; }
-        #tagline   { font-size: 1.5em; position: absolute; left: 5%; }
-        #quick-nav {  font-size: 1.5em; position: fixed; right: 5%; top:87px }
+        #nh-logo { position: absolute; max-width: 14em; left: 5%; top: 10px; }
+        #tagline   { font-size: large; position: absolute; left: 5%; text-transform: uppercase;}
+        #quick-nav {  font-size: x-large; position: fixed; right: 5%; top:35px }
         #quick-nav a {  text-decoration: none; text-transform: uppercase; font-weight: 200; color:var(--text-color) }
         #quick-nav a:hover { color:var(--highlight-color); transition-duration: 300ms; transition-property: all; transition-timing-function: cubic-bezier(0.23, 1, 0.320, 1); }
         #app .toggleFilter a { cursor: pointer; } 
 
         
-        #top-nav { box-shadow: 0px 0px 30px #0d2a3d33; padding-top: .5em; border-bottom: solid 1px var(--highlight-color); position: fixed; width: 100%; height: 250px; background-color: var(--bg-color); z-index:10; }
+        #top-nav { box-shadow: 0px 0px 30px #0d2a3d33; padding-top: .5em; border-bottom: solid 1px var(--highlight-color); position: fixed; width: 100%; height: 175px; background-color: var(--bg-color); z-index:10; }
 
         #main-content { padding-top: var(--top-h); }
 
@@ -109,10 +109,14 @@
             #app h1 {font-size: 1.5em; letter-spacing: initial; }
             #tagline { display: none; width:0; height: 0; }
             #app input, textarea { max-width: 9em }
-            #quick-nav { top: 200px; font-size: 1.2em; left: 30px;}
+            #quick-nav { top: 155px; font-size: large; left: 30px;}
             #nh-logo { left: 30px;  }
             .pure-g > div > div.wrap { padding: 0 30px; }
             .pure-g > div > h1 { padding: 0 30px; }
+        } 
+
+        @media screen and (max-width: 578px) {
+            #top-nav { height: 190px; }
         } 
 
         @keyframes ldio-ocss36wta5n-o {
@@ -173,7 +177,7 @@
                     <div style="position: fixed; top:0px; display: block; width:100%; height: 200px; border-bottom: solid 1px var(--highlight-color-color); ">
                         <img id="nh-logo" src="./assets/nh.png" alt="NearHear"></img>
                     </div>
-                    <div style="position: fixed; top: 200px; display: block; width:100%;">
+                    <div style="position: fixed; top: 155px; display: block; width:100%;">
                         <div id="tagline">Discover music online. See it nearby. </div>
                         <div id="quick-nav">
                             <a href="#build">Build Playlist</a> | 
@@ -359,7 +363,7 @@
             </vue-section>
 
             <vue-section title="Contact Us &#128227;" anchor="contact">
-                <p>Questions, comments, concerns, just want to be friends? Don't be a stranger. Reach out to us <a href="mailto:feedback@nearhear.app">feedback@nearhear.app</a>.</p>
+                <p>Questions, comments, concerns, just want to be friends? Please don't be a stranger and reach out to us <a href="mailto:feedback@nearhear.app">feedback@nearhear.app</a>.</p>
             </vue-section>
 
 
