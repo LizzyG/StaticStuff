@@ -235,6 +235,7 @@
                     <form class="pure-form">
                         <fieldset >
                             <select v-model="playlist.city" v-on:change="onCitySelected" >
+                                <option disabled="disabled" value="" selected="trues" >Select City</option>
                                 <option v-for="city in playlist.opt.cities" v-bind:value="city" :selected="city === playlist.city">{{city}}</option>
                             </select>
                         </fieldset>
@@ -479,7 +480,7 @@
                 },
                 startDate: new Date(),
                 endDate: new Date(),
-                city: undefined,
+                city: '',
                 broadGenres: [],
                 spotifyGenres: [],
                 venues: [],
@@ -522,7 +523,7 @@
                 return this.auth.spotify.userid === 'error'
               },
               citySuccess: function() {
-                return this.playlist.city !== undefined
+                return !!this.playlist.city
               },
               dateSuccess: function() {
                 return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
@@ -563,6 +564,9 @@
                 return path + query
             },
             onCitySelected: function(city) {
+                if (!this.playlist.cities) {
+                    return
+                }
                 this.onFilterChange()
 
                 if (this.features.autoDateRange) {
