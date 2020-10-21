@@ -568,7 +568,7 @@
                 return path + query
             },
             onCitySelected: function(city) {
-                if (!this.playlist.cities) {
+                if (!this.playlist.opt.cities) {
                     return
                 }
                 this.onFilterChange()
