@@ -192,6 +192,7 @@
             </div>
         </div>
         <div id="main-content">
+            <div v-if="authNone">
             <vue-section title="What is NearHear?">
                 <P>NearHear allows you to create Spotify playlists of artists that perform in your area. </P>
             </vue-section>
@@ -207,30 +208,30 @@
                 <p>That's it. When you log into Spotify, you should see a playlist with tracks custom tailored to your area.</p>
                 <!-- <p>NearHear is all about supporting live music, so once you discover an artist you like, checkout the playlist's description to find out when and where they perform.</p> -->
             </vue-section>
+        </div>
 
             <vue-section title="Build a playlist" anchor="build" v-if="!loading">
                 
-                <!-- Spotify Auth -->
-                <div>
-                    <div v-if="authNone">
-                        <H2>Authorize with Spotify &#128275;</H2>
-                        <p>We will send you over to Spotify to login, and then Spotify will give us permission to push playlists to your account. We never see your credentials, just your Spotify user id so it's easy and secure.</p>
-                    </div>
-                    <div class="warning" v-if="authError">
-                        <H2>Authorization Issue &#129320; </H2>
-                        <H3>Oh no! Something went awry...</H3>
-                        <p>Seems like there's a problem authenticating with Spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
-                    </div>
-                    <div class="warning" v-if="authSuccess">
-                        <H2>Spotify Authorization Success &#127821; </H2>
-                        <p>We've validated you with Spotify. In the next step you'll build the playlist.</p>
-                    </div>
-                    <form class="pure-form" v-if="authNone || authError"> 
-                        <fieldset>
-                            <input type="button" value="Authorize" class="pure-button pure-button-primary"  v-on:click="authSpotify" />
+                <!-- Account Check -->
+                <div v-if="authNone">
+                    <H2>Do you have a Spotify account?</H2>
+                    <form class="pure-form">
+                        <fieldset >
+                            <input type="button" value="Yes" v-on:click="auth.spotify.hasAccount = true" class="pure-button pure-button-primary" :disabled="playlist.status === status_codes.SUCCESS" />
+                            <input type="button" value="No" v-on:click="auth.spotify.hasAccount = false" class="pure-button pure-button-primary" :disabled="playlist.status === status_codes.SUCCESS" />
+                            <div v-if="auth.spotify.hasAccount===false">
+                                <H2>No dice 🎲 </H2>
+                                <p>You need a Spotify account to use NearHear.</p>
+                            </div>
+                            <div v-if="auth.spotify.hasAccount">
+                                <H2>Perfect!</H2>
+                                <p> We'll have you login to your account later.  Now you can configure your playlist</p>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
+                
+
 
                 <!-- Set Filters -->
                 <div v-if="showPickCity">
@@ -304,13 +305,44 @@
                         </form>
                     </div>
                 </div>
-                <div v-if="showCreatePlaylist">
+                <!-- <div v-if="showCreatePlaylist">
                     <H2>Almost there!</H2>
                     <p>All you gotta do now is press that Create Playlist button. &#128293; </p>
                     <form class="pure-form">
                         <fieldset >
                             <div   v-if="playlist.status === status_codes.SENDING" class="loadingio-spinner-dual-ball-ffelmax3riq"><div class="ldio-ocss36wta5n"><div></div><div></div><div></div></div></div>
                             <input v-if="playlist.status !== status_codes.SENDING" type="button" value="Create Playlist" v-on:click="createPlaylist" class="pure-button pure-button-primary" :disabled="playlist.status === status_codes.SUCCESS" />
+                        </fieldset>
+                    </form>
+                </div> -->
+
+                <!-- Spotify Auth -->
+                <div v-if="showAuth">
+                    <div v-if="authNone">
+                        <H2>Authorize with Spotify &#128275;</H2>
+                        <p>We will send you over to Spotify to login, and then Spotify will give us permission to push playlists to your account. We never see your credentials, just your Spotify user id so it's easy and secure.</p>
+                    </div>
+                    <div class="warning" v-if="authError">
+                        <H2>Authorization Issue &#129320; </H2>
+                        <H3>Oh no! Something went awry...</H3>
+                        <p>Seems like there's a problem authenticating with Spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
+                    </div>
+                    <div class="warning" v-if="authSuccess">
+                        <H2>Spotify Authorization Success &#127821; </H2>
+                        <p>We've validated you with Spotify. In the next step you'll build the playlist.</p>
+                    </div>
+                    <form class="pure-form" v-if="authNone || authError"> 
+                        <fieldset>
+                            <input type="button" value="Authorize" class="pure-button pure-button-primary"  v-on:click="authSpotify" />
+                        </fieldset>
+                    </form>
+                </div>
+
+                <!-- <div v-if="authSuccess && showCreatePlaylist" > -->
+                <div v-if="showCreatePlaylist" >    
+                    <form class="pure-form"> 
+                        <fieldset style="clear:both">
+                            <input type="button" value="Create Playlist" class="pure-button pure-button-primary"  v-on:click="createPlaylist" />
                         </fieldset>
                     </form>
                 </div>
@@ -458,12 +490,12 @@
           },
           data: {
             loading: true,
-            tab: 'about',
             auth: {
                 spotify: {
                     inOauthMode: undefined,
                     userid: undefined,
-                    oauthUrl: undefined
+                    oauthUrl: undefined,
+                    hasAccount: undefined
                 }
             },
             features: {
@@ -504,6 +536,13 @@
             if (userId) {
                 this.auth.spotify.userid = userId
             }
+            //if there's a config they're coming back from authing, create the playlist they already configured
+            let config = localStorage.getItem('playlistConfig')
+            if (config){
+                this.playlist=JSON.parse(config)
+                localStorage.removeItem('playlistConfig')
+                this.createPlaylist()
+            }
                 
             // Grab current cities
             nhFetch(
@@ -533,7 +572,7 @@
                 return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
               },
               showPickCity: function() {
-                return this.authSuccess
+                return this.auth.spotify.hasAccount || this.auth.spotify.userid
               },
               showPickDates: function() {
                 return !!this.playlist.city
@@ -542,17 +581,18 @@
                   return this.features.filters && (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.venues.length > 0)
               },
               showCreatePlaylist: function() {
-                  return this.features.filters && this.playlist.city
+                  return this.features.filters && this.playlist.city && this.auth.spotify.userid
+              },
+              showAuth: function(){
+                  return this.auth.spotify.hasAccount && this.auth.spotify.userid === undefined && this.features.filters && this.playlist.city
               }
           },
           methods: {
             getUserIdFromCookie: function() {
                 return getCookie(userIdCn) || new URLSearchParams(window.location.search).get("userid")
             },
-            navigate: function (tab) {
-                this.tab = tab
-            },
             authSpotify: function () {
+                localStorage.setItem('playlistConfig', JSON.stringify(this.playlist))
                 let authEndPoint = `${baseUrl}/spotify/auth`
                 if (this.auth.spotify.userid !== undefined) {
                     authEndPoint += `?userid=${this.auth.spotify.userid}`
@@ -568,7 +608,7 @@
                 return path + query
             },
             onCitySelected: function(city) {
-                if (!this.playlist.opt.cities) {
+                if (!this.playlist.city) {
                     return
                 }
                 this.onFilterChange()
