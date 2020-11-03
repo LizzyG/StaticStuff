@@ -236,7 +236,7 @@
                 <!-- Set Filters -->
                 <div v-if="showPickCity">
                     <H2>Pick a city</H2>
-                    <p>Currently we only support a couple of cities, but more will show up in the future. Check out our mailing list to sign up, and show interest in bringing NearHear to your town.</p>
+                    <!-- <p>Currently we only support a couple of cities, but more will show up in the future. Check out our mailing list to sign up, and show interest in bringing NearHear to your town.</p> -->
                     <form class="pure-form">
                         <fieldset >
                             <select v-model="playlist.city" v-on:change="onCitySelected" >
@@ -535,6 +535,7 @@
             const userId = this.getUserIdFromCookie()
             if (userId) {
                 this.auth.spotify.userid = userId
+                this.auth.spotify.hasAccount = true
             }
             //if there's a config they're coming back from authing, create the playlist they already configured
             let config = localStorage.getItem('playlistConfig')
@@ -562,6 +563,9 @@
               authSuccess: function() {
                 return this.auth.spotify.userid && this.auth.spotify.userid !== 'error'
               },
+              showAuthSuccess: function(){
+                  return this.authSuccess && !(this.playlist.status === status_codes.SUCCESS)
+              },
               authError: function() {
                 return this.auth.spotify.userid === 'error'
               },
@@ -572,16 +576,16 @@
                 return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
               },
               showPickCity: function() {
-                return this.auth.spotify.hasAccount || this.auth.spotify.userid
+                return this.auth.spotify.hasAccount && !(this.playlist.status === status_codes.SUCCESS)
               },
               showPickDates: function() {
-                return !!this.playlist.city
+                return !!this.playlist.city && !(this.playlist.status === status_codes.SUCCESS)
               },
               showPickFilters: function() {
-                  return this.features.filters && (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.venues.length > 0)
+                  return this.features.filters && (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.venues.length > 0) && !(this.playlist.status === status_codes.SUCCESS)
               },
               showCreatePlaylist: function() {
-                  return this.features.filters && this.playlist.city && this.auth.spotify.userid
+                  return this.features.filters && this.playlist.city && this.auth.spotify.userid && !(this.playlist.status === status_codes.SUCCESS)
               },
               showAuth: function(){
                   return this.auth.spotify.hasAccount && this.auth.spotify.userid === undefined && this.features.filters && this.playlist.city
@@ -608,7 +612,7 @@
                 return path + query
             },
             onCitySelected: function(city) {
-                if (!this.playlist.city) {
+                if (!this.playlist.opt.cities) {
                     return
                 }
                 this.onFilterChange()
@@ -641,10 +645,10 @@
                      .then(resp => resp.text())
                      .then(result => {
                         const json = JSON.parse(result)
-                        this.playlist.opt.broadGenres = [...json.BroadGenres]
-                        this.playlist.opt.spotifyGenres = [...json.SpotifyGenres]
-                        this.playlist.opt.venues = [...json.Venues]
-                        this.playlist.venues = [...json.Venues]
+                        this.playlist.opt.broadGenres = [...json.BroadGenres || [] ]
+                        this.playlist.opt.spotifyGenres = [...json.SpotifyGenres || [] ]
+                        this.playlist.opt.venues = [...json.Venues || [] ] 
+                        this.playlist.venues = [...json.Venues || [] ]
                     })
                 }
             },
