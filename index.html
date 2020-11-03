@@ -236,7 +236,7 @@
                 <!-- Set Filters -->
                 <div v-if="showPickCity">
                     <H2>Pick a city</H2>
-                    <p>Currently we only support a couple of cities, but more will show up in the future. Check out our mailing list to sign up, and show interest in bringing NearHear to your town.</p>
+                    <!-- <p>Currently we only support a couple of cities, but more will show up in the future. Check out our mailing list to sign up, and show interest in bringing NearHear to your town.</p> -->
                     <form class="pure-form">
                         <fieldset >
                             <select v-model="playlist.city" v-on:change="onCitySelected" >
@@ -535,6 +535,7 @@
             const userId = this.getUserIdFromCookie()
             if (userId) {
                 this.auth.spotify.userid = userId
+                this.auth.spotify.hasAccount = true
             }
             //if there's a config they're coming back from authing, create the playlist they already configured
             let config = localStorage.getItem('playlistConfig')
