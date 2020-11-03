@@ -221,7 +221,7 @@
                         <H3>Oh no! Something went awry...</H3>
                         <p>Seems like there's a problem authenticating with Spotify. This may or may not be our fault. Would you contact us and let us know you had an issue? We will try our best to fix it.</p>
                     </div>
-                    <div class="warning" v-if="authSuccess">
+                    <div class="warning" v-if="showAuthSuccess">
                         <H2>Spotify Authorization Success &#127821; </H2>
                         <p>We've validated you with Spotify. In the next step you'll build the playlist.</p>
                     </div>
@@ -523,6 +523,9 @@
               authSuccess: function() {
                 return this.auth.spotify.userid && this.auth.spotify.userid !== 'error'
               },
+              showAuthSuccess: function(){
+                  return this.authSuccess && !(this.playlist.status === status_codes.SUCCESS)
+              },
               authError: function() {
                 return this.auth.spotify.userid === 'error'
               },
@@ -533,16 +536,16 @@
                 return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
               },
               showPickCity: function() {
-                return this.authSuccess
+                return this.authSuccess && !(this.playlist.status === status_codes.SUCCESS)
               },
               showPickDates: function() {
-                return !!this.playlist.city
+                return !!this.playlist.city && !(this.playlist.status === status_codes.SUCCESS)
               },
               showPickFilters: function() {
-                  return this.features.filters && (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.venues.length > 0)
+                  return this.features.filters && (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.venues.length > 0) && !(this.playlist.status === status_codes.SUCCESS)
               },
               showCreatePlaylist: function() {
-                  return this.features.filters && this.playlist.city
+                  return this.features.filters && this.playlist.city && !(this.playlist.status === status_codes.SUCCESS)
               }
           },
           methods: {
@@ -568,7 +571,7 @@
                 return path + query
             },
             onCitySelected: function(city) {
-                if (!this.playlist.cities) {
+                if (!this.playlist.opt.cities) {
                     return
                 }
                 this.onFilterChange()
@@ -601,10 +604,10 @@
                      .then(resp => resp.text())
                      .then(result => {
                         const json = JSON.parse(result)
-                        this.playlist.opt.broadGenres = [...json.BroadGenres]
-                        this.playlist.opt.spotifyGenres = [...json.SpotifyGenres]
-                        this.playlist.opt.venues = [...json.Venues]
-                        this.playlist.venues = [...json.Venues]
+                        this.playlist.opt.broadGenres = [...json.BroadGenres || [] ]
+                        this.playlist.opt.spotifyGenres = [...json.SpotifyGenres || [] ]
+                        this.playlist.opt.venues = [...json.Venues || [] ] 
+                        this.playlist.venues = [...json.Venues || [] ]
                     })
                 }
             },
