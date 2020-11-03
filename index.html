@@ -575,7 +575,7 @@
                 return this.playlist.startDate !== undefined && this.playlist.endDate !== undefined
               },
               showPickCity: function() {
-                return this.authSuccess && !(this.playlist.status === status_codes.SUCCESS)
+                return this.auth.spotify.hasAccount && !(this.playlist.status === status_codes.SUCCESS)
               },
               showPickDates: function() {
                 return !!this.playlist.city && !(this.playlist.status === status_codes.SUCCESS)
