@@ -275,44 +275,23 @@
                 </div>
                 <div v-if="showPickFilters">
                     <h2>Apply Filters</h2>
-                    <div class="filter-wrapper" v-if="playlist.opt.broadGenres.length > 0">
+                    <div class="filter-wrapper" v-if="playlist.opt.broadGenres || playlist.opt.spotifyGenres"> 
                         <h3>Genres</h3>  
-                        <div v-if="features.genreFilters.spotify">
-                            <div class="toggleFilter">
-                                <a v-on:click="toggleFilter('spotifyGenres',true)">Check all</a>
-                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                                <a v-on:click="toggleFilter('spotifyGenres',false)">Uncheck All</a>
-
-                                <a  style="float:right; clear:right"
-                                    v-if="features.genreFilters.showToggle" 
-                                    v-on:click="toggleGenreFilters('specific')">Use Broad Genres</a><br/>
-                            </div>
-                            <form class="pure-form">
-                                <fieldset >
-                                    <label v-for="item in playlist.opt.spotifyGenres" v for="checkbox-radio-option-one" class="pure-checkbox">
-                                        <input type="checkbox" name="broadGenres" :id="item" :value="item" v-model="playlist.spotifyGenres" v-on:change="onFilterChange" />{{item}}
-                                    </label>
-                                </fieldset>
-                            </form>
+                        <div class="toggleFilter">
+                            <a v-on:click="toggleFilter(targetGenres,true)">Check all</a>
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            <a v-on:click="toggleFilter(targetGenres,false)">Uncheck All</a>
+                            <a  style="float:right; clear:right"
+                                v-if="features.genreFilters.showToggle" 
+                                v-on:click="toggleGenreFilters()">{{genreFilterToggleText}}</a>
                         </div>
-                        <div v-if="features.genreFilters.broad">
-                            <div class="toggleFilter">
-                                <a v-on:click="toggleFilter('broadGenres',true)">Check all</a>
-                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                                <a v-on:click="toggleFilter('broadGenres',false)">Uncheck All</a>
-
-                                <a  style="float:right; clear:right"
-                                    v-if="features.genreFilters.showToggle" 
-                                    v-on:click="toggleGenreFilters('broad')">Use More Specific Genres</a><br/>
-                            </div>
-                            <form class="pure-form">
-                                <fieldset >
-                                    <label v-for="item in playlist.opt.broadGenres" v for="checkbox-radio-option-one" class="pure-checkbox">
-                                        <input type="checkbox" name="broadGenres" :id="item" :value="item" v-model="playlist.broadGenres" v-on:change="onFilterChange" />{{item}}
-                                    </label>
-                                </fieldset>
-                            </form>
-                        </div>
+                        <form class="pure-form">
+                            <fieldset >
+                                <label v-for="item in playlist.opt[targetGenres]" v for="checkbox-radio-option-one" class="pure-checkbox">
+                                    <input type="checkbox" :name="targetGenres" :id="item" :value="item" v-model="playlist[targetGenres]" v-on:change="onFilterChange" />{{item}}
+                                </label>
+                            </fieldset>
+                        </form>
                     </div>
                     <div class="filter-wrapper" v-if="playlist.opt.venues.length > 0">
                         <h3>Venues</h3>
@@ -590,6 +569,24 @@
                 .catch(error => console.log('error', error));
           },
           computed: {
+              genreFilterToggleText: function() {
+                if (this.features.genreFilters.broad) {
+                  return 'Use more specific genres'
+                }
+                if (this.features.genreFilters.spotify) {
+                  return 'Use broad genres'
+                }
+                return []
+              },
+              targetGenres: function() {
+                if (this.features.genreFilters.broad) {
+                  return 'broadGenres';
+                }
+                if (this.features.genreFilters.spotify) {
+                  return 'spotifyGenres';
+                }
+                return ''
+              },
               authNone: function() {
                 return this.auth.spotify.userid === undefined
               },
@@ -627,18 +624,9 @@
               }
           },
           methods: {
-            toggleGenreFilters: function(type) {
-                switch(type) 
-                {
-                    case "broad":
-                        this.features.genreFilters.broad = false
-                        this.features.genreFilters.spotify = true
-                        break;
-                    case "specific":
-                        this.features.genreFilters.broad = true
-                        this.features.genreFilters.spotify = false
-                        break
-                }
+            toggleGenreFilters: function() {
+              this.features.genreFilters.broad = !this.features.genreFilters.broad 
+              this.features.genreFilters.spotify = !this.features.genreFilters.spotify 
             },
             getUserIdFromCookie: function() {
                 return getCookie(userIdCn) || new URLSearchParams(window.location.search).get("userid")
