@@ -276,19 +276,43 @@
                 <div v-if="showPickFilters">
                     <h2>Apply Filters</h2>
                     <div class="filter-wrapper" v-if="playlist.opt.broadGenres.length > 0">
-                        <h3>Genres</h3>
-                        <div class="toggleFilter">
-                            <a v-on:click="toggleFilter('broadGenres',true)">Check all</a>
-                            &nbsp;&nbsp;|&nbsp;&nbsp;
-                            <a v-on:click="toggleFilter('broadGenres',false)">Uncheck All</a>
+                        <h3>Genres</h3>  
+                        <div v-if="features.genreFilters.spotify">
+                            <div class="toggleFilter">
+                                <a v-on:click="toggleFilter('spotifyGenres',true)">Check all</a>
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <a v-on:click="toggleFilter('spotifyGenres',false)">Uncheck All</a>
+
+                                <a  style="float:right; clear:right"
+                                    v-if="features.genreFilters.showToggle" 
+                                    v-on:click="toggleGenreFilters('specific')">Use Broad Genres</a><br/>
+                            </div>
+                            <form class="pure-form">
+                                <fieldset >
+                                    <label v-for="item in playlist.opt.spotifyGenres" v for="checkbox-radio-option-one" class="pure-checkbox">
+                                        <input type="checkbox" name="broadGenres" :id="item" :value="item" v-model="playlist.spotifyGenres" v-on:change="onFilterChange" />{{item}}
+                                    </label>
+                                </fieldset>
+                            </form>
                         </div>
-                        <form class="pure-form">
-                            <fieldset >
-                                <label v-for="item in playlist.opt.broadGenres" v for="checkbox-radio-option-one" class="pure-checkbox">
-                                    <input type="checkbox" name="broadGenres" :id="item" :value="item" v-model="playlist.broadGenres" v-on:change="onFilterChange" />{{item}}
-                                </label>
-                            </fieldset>
-                        </form>
+                        <div v-if="features.genreFilters.broad">
+                            <div class="toggleFilter">
+                                <a v-on:click="toggleFilter('broadGenres',true)">Check all</a>
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <a v-on:click="toggleFilter('broadGenres',false)">Uncheck All</a>
+
+                                <a  style="float:right; clear:right"
+                                    v-if="features.genreFilters.showToggle" 
+                                    v-on:click="toggleGenreFilters('broad')">Use More Specific Genres</a><br/>
+                            </div>
+                            <form class="pure-form">
+                                <fieldset >
+                                    <label v-for="item in playlist.opt.broadGenres" v for="checkbox-radio-option-one" class="pure-checkbox">
+                                        <input type="checkbox" name="broadGenres" :id="item" :value="item" v-model="playlist.broadGenres" v-on:change="onFilterChange" />{{item}}
+                                    </label>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
                     <div class="filter-wrapper" v-if="playlist.opt.venues.length > 0">
                         <h3>Venues</h3>
@@ -404,6 +428,7 @@
     <div id="footer">Copyright 2020 Offline Development LLC</div>
 
     <script>
+        Vue.config.devtools = true
         let baseUrl = "${NEARHEAR_APP}"
         if (baseUrl.indexOf("NEARHEAR_APP") > 0) {
             baseUrl = "https://nearhear.app"
@@ -489,6 +514,9 @@
             vueSection
           },
           data: {
+            advanced: {
+                showFilters: false
+            },
             loading: true,
             auth: {
                 spotify: {
@@ -500,6 +528,11 @@
             },
             features: {
                 filters: true,
+                genreFilters: {
+                    showToggle: true,
+                    broad: true,
+                    spotify: false
+                },
                 autoDateRange: true
             },
             playlist: {
@@ -582,7 +615,9 @@
                 return !!this.playlist.city && !(this.playlist.status === status_codes.SUCCESS)
               },
               showPickFilters: function() {
-                  return this.features.filters && (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.venues.length > 0) && !(this.playlist.status === status_codes.SUCCESS)
+                  return this.features.filters && 
+                    (this.playlist.opt.broadGenres.length > 0 || this.playlist.opt.spotifyGenres.length > 0 || this.playlist.opt.venues.length > 0) && 
+                    !(this.playlist.status === status_codes.SUCCESS)
               },
               showCreatePlaylist: function() {
                   return this.features.filters && this.playlist.city && this.auth.spotify.userid && !(this.playlist.status === status_codes.SUCCESS)
@@ -592,6 +627,19 @@
               }
           },
           methods: {
+            toggleGenreFilters: function(type) {
+                switch(type) 
+                {
+                    case "broad":
+                        this.features.genreFilters.broad = false
+                        this.features.genreFilters.spotify = true
+                        break;
+                    case "specific":
+                        this.features.genreFilters.broad = true
+                        this.features.genreFilters.spotify = false
+                        break
+                }
+            },
             getUserIdFromCookie: function() {
                 return getCookie(userIdCn) || new URLSearchParams(window.location.search).get("userid")
             },
@@ -649,6 +697,9 @@
                         this.playlist.opt.spotifyGenres = [...json.SpotifyGenres || [] ]
                         this.playlist.opt.venues = [...json.Venues || [] ] 
                         this.playlist.venues = [...json.Venues || [] ]
+                        this.features.genreFilters.showToggle = !!json.BroadGenres && !!json.SpotifyGenres
+                        this.features.genreFilters.spotify = !!json.SpotifyGenres && !json.BroadGenres
+                        this.features.genreFilters.broad = !!json.BroadGenres
                     })
                 }
             },
@@ -690,8 +741,8 @@
                             "StartDate": this.playlist.startDate,
                             "EndDate": this.playlist.endDate,
                             "Venues":this.playlist.venues,
-                            "BroadGenres":this.playlist.broadGenres,
-                            "SpotifyGenres":this.playlist.spotifyGenres
+                            "BroadGenres":this.features.genreFilters.broad ? this.playlist.broadGenres : undefined,
+                            "SpotifyGenres":this.features.genreFilters.spotify ? this.playlist.spotifyGenres : undefined
                         }
                     }
                     this.playlist.status = status_codes.SENDING
@@ -700,7 +751,6 @@
                         .then(result => {
                             const json = JSON.parse(result)
 
-                            
                             if (json.PlaylistCreated) {
                                 this.playlist.status = status_codes.SUCCESS
                             }
