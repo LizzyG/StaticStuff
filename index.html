@@ -668,7 +668,7 @@
                 }
 
                 if (this.playlist.endDate != date) {
-                    this.playlist.endDate = date
+                    this.playlist.endDate = date 
                     this.onDateChanged()
                 }
             },
@@ -700,11 +700,12 @@
                         .then(result => {
                             const json = JSON.parse(result)
 
-                            if (json.Success && !json.PlaylistCreated) {
-                                this.playlist.status = status_codes.NO_RESULT
-                            }
-                            else if (json.Success) {
+                            
+                            if (json.PlaylistCreated) {
                                 this.playlist.status = status_codes.SUCCESS
+                            }
+                            else if (!json.PlaylistCreated && !json.ErrStr) {
+                                this.playlist.status = status_codes.NO_RESULT
                             }
                             else {
                                 this.playlist.status = status_codes.FAILURE
