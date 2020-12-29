@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const { fileURLToPath } = require("url");
 
 const server = http.createServer(function (req, res) {
   let filePath = "." + req.url;
@@ -29,8 +30,12 @@ const server = http.createServer(function (req, res) {
 
   console.log("serving", filePath);
   fs.readFile(filePath, function (error, content) {
+    if (filePath.includes("/.")){
+      return;
+    }
     res.writeHead(200, { "Content-Type": contentType });
     if (contentType=="text/html"){
+     
       res.end(content.toString('utf8').replace("${NEARHEAR_APP}", process.env["NEARHEAR_APP"]), "utf-8");
     }else{
       res.end(content, "utf-8");
